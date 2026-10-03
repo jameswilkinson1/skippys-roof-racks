@@ -1,0 +1,148 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumbs from '../components/sections/Breadcrumbs.astro';
+import Gallery from '../components/sections/Gallery.astro';
+import CTABand from '../components/sections/CTABand.astro';
+import Stars from '../components/ui/Stars.astro';
+import GoogleG from '../components/ui/GoogleG.astro';
+import Icon from '../components/ui/Icon.astro';
+import { site } from '../data/site';
+import { reviews, type ReviewTag } from '../data/reviews';
+import { getGoogleSummary } from '../lib/google-reviews';
+import c4 from '../assets/images/customers/customer-04.jpg';
+import c11 from '../assets/images/customers/customer-11.jpg';
+import c14 from '../assets/images/customers/customer-14.jpg';
+import c17 from '../assets/images/customers/customer-17.jpg';
+import c21 from '../assets/images/customers/customer-21.jpg';
+import c22 from '../assets/images/customers/customer-22.jpg';
+import c27 from '../assets/images/customers/customer-27.jpg';
+import c31 from '../assets/images/customers/customer-31.jpg';
+
+const google = await getGoogleSummary();
+const crumbs = [{ name: 'Reviews', href: '/reviews/' }];
+const filters: { label: string; tags: ReviewTag[] }[] = [
+  { label: 'All', tags: [] },
+  { label: 'Hire & roof boxes', tags: ['hire', 'box'] },
+  { label: 'Roof bars & fit', tags: ['bars', 'fit'] },
+  { label: 'Fitting', tags: ['fitting'] },
+  { label: 'Repairs & parts', tags: ['repair', 'parts', 'keys'] },
+  { label: 'Used & eBay', tags: ['used', 'ebay', 'delivery'] },
+];
+const sorted = [...reviews].sort((a, b) => b.year - a.year);
+const initials = (n: string) => n.split(/\s+/).map((p) => p[0]).slice(0, 2).join('').toUpperCase();
+const gallery = [
+  { src: c21, alt: 'Silver roof box on a family car' },
+  { src: c4, alt: 'Mountain bike on a Thule roof-mounted carrier' },
+  { src: c14, alt: 'Red car with a rooftop tent at a campsite' },
+  { src: c17, alt: 'Bikes on a Thule carrier mounted to a trailer' },
+  { src: c22, alt: 'Audi SUV with roof bars and a cargo bag' },
+  { src: c27, alt: 'Black hatchback with a roof box on a gravel drive' },
+  { src: c31, alt: 'Bike on a roof carrier, seen from the windscreen' },
+  { src: c11, alt: 'VW Golf with a roof box on a residential street' },
+];
+---
+<BaseLayout
+  title="Customer Reviews | 5.0 on Google, 100% on eBay"
+  description={`Read what customers say about Skippy's Roof Racks: rated ${google.rating.toFixed(1)} from ${google.reviewCount}+ Google reviews and ${site.ebay.positive} positive on eBay for Thule hire, fitting, repairs and used kit.`}
+  crumbs={crumbs}
+>
+  <section class="rev-hero">
+    <div class="container">
+      <Breadcrumbs crumbs={crumbs} />
+      <div class="rev-hero-grid">
+        <div>
+          <p class="eyebrow">Reviews</p>
+          <h1>Don't just take our word for it</h1>
+          <p class="lead">Every review below is from a real customer on Google. Hundreds more are on Google and in our eBay feedback.</p>
+        </div>
+        <div class="score-cards">
+          <a class="score-card" href={site.google.reviewsUrl} target="_blank" rel="noopener">
+            <GoogleG size={34} />
+            <span class="score">{google.rating.toFixed(1)}</span>
+            <Stars rating={google.rating} size={18} />
+            <span class="muted">{google.reviewCount}+ Google reviews</span>
+          </a>
+          <a class="score-card" href={site.ebay.feedbackUrl} target="_blank" rel="noopener">
+            <Icon name="ShoppingBag" size={32} />
+            <span class="score">{site.ebay.positive}</span>
+            <span class="muted">positive eBay feedback<br />{site.ebay.feedbackCount} ratings</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="filters" role="toolbar" aria-label="Filter reviews">
+        {filters.map((f, i) => <button type="button" class:list={['pill', { active: i === 0 }]} data-filter={f.tags.join(',')} aria-pressed={i === 0 ? 'true' : 'false'}>{f.label}</button>)}
+      </div>
+      <ul class="masonry" role="list">
+        {google.live.map((r) => (
+          <li class="rcard" data-tags="">
+            <div class="rtop">{r.photo ? <img class="av" src={r.photo} alt="" width="40" height="40" loading="lazy" referrerpolicy="no-referrer" /> : <span class="av">{initials(r.author)}</span>}<span><strong>{r.author}</strong><small>{r.relativeTime}</small></span><GoogleG size={18} /></div>
+            <Stars rating={r.rating} size={15} />
+            <p>{r.text}</p>
+          </li>
+        ))}
+        {sorted.map((r) => (
+          <li class="rcard" data-tags={r.tags.join(',')}>
+            <div class="rtop"><span class="av">{initials(r.author)}</span><span><strong>{r.author}</strong><small>{r.year}</small></span><GoogleG size={18} /></div>
+            <Stars rating={r.rating ?? 5} size={15} />
+            <p>{r.text}</p>
+          </li>
+        ))}
+      </ul>
+      <div class="btn-row" style="margin-top:28px; justify-content:center">
+        <a href={site.google.reviewsUrl} target="_blank" rel="noopener" class="btn btn-dark">Read all reviews on Google <Icon name="ArrowUpRight" /></a>
+        <a href={site.google.writeReviewUrl} target="_blank" rel="noopener" class="btn btn-outline">Leave us a review</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section bg-white">
+    <div class="container">
+      <div class="section-head"><p class="eyebrow">Customer photos</p><h2>Kitted out and on the road</h2></div>
+      <Gallery images={gallery} caption="Photos shared by customers in their Google reviews." />
+    </div>
+  </section>
+  <CTABand />
+</BaseLayout>
+
+<script>
+  const buttons = document.querySelectorAll<HTMLButtonElement>('[data-filter]');
+  const cards = document.querySelectorAll<HTMLElement>('.rcard');
+  buttons.forEach((b) => b.addEventListener('click', () => {
+    const tags = (b.dataset.filter ?? '').split(',').filter(Boolean);
+    buttons.forEach((x) => { x.classList.toggle('active', x === b); x.setAttribute('aria-pressed', String(x === b)); });
+    cards.forEach((c) => {
+      const ct = (c.dataset.tags ?? '').split(',');
+      c.hidden = tags.length > 0 && !tags.some((t) => ct.includes(t));
+    });
+  }));
+</script>
+
+<style>
+  .rev-hero { padding-block: clamp(24px, 4vw, 48px); background: var(--white); border-bottom: 1px solid var(--line); }
+  .rev-hero-grid { display: grid; gap: 28px; align-items: center; }
+  @media (min-width: 960px) { .rev-hero-grid { grid-template-columns: 1.2fr 0.8fr; } }
+  .score-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .score-card { display: flex; flex-direction: column; align-items: flex-start; gap: 6px; padding: 22px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--paper); text-decoration: none; }
+  .score-card:hover { border-color: var(--line-strong); box-shadow: var(--shadow); }
+  .score { font-size: 2.6rem; font-weight: 900; font-stretch: 118%; line-height: 1; }
+  .score-card .muted { font-size: 0.88rem; }
+  .filters { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 28px; }
+  .filters .pill { border: 1px solid var(--line); cursor: pointer; padding: 9px 16px; background: var(--white); }
+  .filters .pill.active { background: var(--ink); color: var(--white); border-color: var(--ink); }
+  .masonry { list-style: none; padding: 0; margin: 0; columns: 1; column-gap: 18px; }
+  @media (min-width: 700px) { .masonry { columns: 2; } }
+  @media (min-width: 1100px) { .masonry { columns: 3; } }
+  .rcard { break-inside: avoid; margin-bottom: 18px; background: var(--white); border: 1px solid var(--line); border-radius: var(--radius); padding: 20px; display: flex; flex-direction: column; gap: 8px; }
+  .rcard[hidden] { display: none; }
+  .rcard p { margin: 0; font-size: 0.97rem; color: var(--ink-2); }
+  .rtop { display: flex; gap: 12px; align-items: center; }
+  .rtop > :global(svg) { margin-left: auto; }
+  .rtop span:not(.av) { display: flex; flex-direction: column; line-height: 1.2; }
+  .rtop small { color: var(--muted); font-size: 0.8rem; }
+  .av { width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center; background: var(--ink); color: var(--accent); font-weight: 800; font-size: 0.85rem; flex: none; object-fit: cover; }
+</style>

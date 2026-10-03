@@ -1,0 +1,74 @@
+---
+import CategoryLayout from '../layouts/CategoryLayout.astro';
+import Icon from '../components/ui/Icon.astro';
+import { site } from '../data/site';
+import heroImg from '../assets/images/site/wingbar-roof-bars.jpg';
+import evoBlack from '../assets/images/products/thule-wingbar-evo-black.jpg';
+import edge from '../assets/images/products/thule-wingbar-edge-black.jpg';
+import probar from '../assets/images/products/thule-probar-evo.jpg';
+import square from '../assets/images/products/thule-squarebar-evo.jpg';
+import kit from '../assets/images/products/thule-fitting-kit-6080.jpg';
+import feet from '../assets/images/products/thule-wingbar-edge.jpg';
+
+const tiles = [
+  { title: 'WingBar Evo', text: 'Thule’s quiet, aerodynamic through-bar, in silver or black.', image: evoBlack, alt: 'Black Thule WingBar Evo roof bars', query: 'wingbar evo' },
+  { title: 'WingBar Edge', text: 'Sleek flush bars that sit within the roof line.', image: edge, alt: 'Black Thule WingBar Edge roof bars', query: 'wingbar edge' },
+  { title: 'ProBar Evo', text: 'Heavy-duty bars for vans, pick-ups and big loads.', image: probar, alt: 'Thule ProBar Evo roof bars', query: 'thule probar' },
+  { title: 'SquareBar Evo', text: 'Tough, practical steel bars at a lower price.', image: square, alt: 'Thule SquareBar Evo roof bars', query: 'squarebar' },
+  { title: 'Fitting kits', text: 'The vehicle-specific part. Hundreds in stock.', image: kit, alt: 'Boxed Thule fitting kit', query: 'thule fitting kit' },
+  { title: 'Foot packs', text: 'Evo Clamp, Raised Rail, Flush Rail, Fixpoint and Edge feet.', image: feet, alt: 'Thule WingBar Edge foot packs and bars', query: 'thule footpack' },
+];
+
+const faqs = [
+  { q: 'How do I know which roof bars fit my car?', a: `Every car needs a specific foot pack and fitting kit. <a href="/which-roof-bars-fit-my-car/">Tell us your make, model and year</a> and we’ll reply with the exact parts, or check <a href="${site.thule.fitGuideUrl}" target="_blank" rel="noopener">Thule’s own fit guide</a>.` },
+  { q: 'Can you supply bars for an older car?', a: 'Yes, this is one of our specialities. We stock fitting kits for many cars Thule no longer lists, and can often source the rest.' },
+  { q: 'Can I reuse my Thule bars on a new car?', a: 'Usually, yes. You’ll often just need a new fitting kit (and sometimes a different foot pack). Send us both cars’ details and we’ll tell you what you need.' },
+  { q: 'Will you fit them?', a: 'Yes. Fitting is free when you buy from us. We set the bar spread and torque correctly and show you how to remove and refit them.' },
+  { q: 'Do you sell keys and locks for roof bars?', a: 'Yes: replacement keys, lock cylinders and matching lock sets. See <a href="/thule-spare-parts/">spare parts & keys</a>.' },
+];
+
+const parts = [
+  { icon: 'Ruler', title: '1. Roof bars', text: 'The bars themselves: WingBar Evo, WingBar Edge, ProBar or SquareBar, in the right length for your roof.' },
+  { icon: 'Settings', title: '2. Foot pack', text: 'The feet that hold the bars: a clamp for normal roofs, or feet for raised rails, flush rails or fixpoints.' },
+  { icon: 'KeyRound', title: '3. Fitting kit', text: 'The car-specific pads and brackets that match your exact make, model, body style and year.' },
+];
+---
+<CategoryLayout
+  seoTitle="Thule Roof Bars & Fitting Kits: New & Used | WingBar Evo, Edge"
+  seoDescription="New and used Thule roof bars, foot packs and fitting kits for hundreds of cars, including discontinued models. Free fitting with purchase at Tuddenham, Ipswich."
+  crumbs={[{ name: 'Shop', href: '/used-thule/' }, { name: 'Thule roof bars', href: '/thule-roof-bars/' }]}
+  eyebrow="Roof bars, foot packs & fitting kits"
+  title="Thule roof bars &amp; fitting kits for your car"
+  lead="The right roof bars start with the right fitting kit. We stock Thule bars, feet and kits for hundreds of cars, old and new, and we'll make sure you get exactly what fits."
+  points={['WingBar Evo, WingBar Edge, ProBar & SquareBar', 'Kits for cars Thule has long discontinued', 'Free fitting and set-up with purchase']}
+  image={heroImg}
+  imageAlt="Silver Thule WingBar Evo roof bars with fitting instructions"
+  query="thule bar"
+  tilesTitle="Shop roof bars, feet and kits"
+  tilesIntro="Our listings are titled with the car each kit fits. Search eBay for your model, or ask us and we'll do it for you."
+  tiles={tiles}
+  faqs={faqs}
+  reviewTags={['bars', 'fit']}
+  reviewTitle="Getting the right fit, first time"
+  guides={['which-thule-roof-bars', 'thule-fitting-kits-explained', 'roof-box-without-roof-rails']}
+  cta={{ title: 'Tell us your car, we’ll do the rest', text: 'Send your make, model, year and roof type. We’ll reply with the exact Thule bars, foot pack and kit, with new and used options.', label: 'Find my fit', href: '/which-roof-bars-fit-my-car/', icon: 'CarFront' }}
+>
+  <section class="section bg-white">
+    <div class="container">
+      <div class="section-head">
+        <p class="eyebrow">How Thule roof bars work</p>
+        <h2>Three parts, one perfect fit</h2>
+        <p>A Thule roof system is made of three parts. Get all three right and your bars will be quiet, secure and easy to remove.</p>
+      </div>
+      <div class="grid grid-3">
+        {parts.map((p) => (
+          <div class="card"><span class="icon-badge"><Icon name={p.icon} /></span><h3>{p.title}</h3><p class="muted">{p.text}</p></div>
+        ))}
+      </div>
+      <div class="btn-row" style="margin-top:28px">
+        <a href="/which-roof-bars-fit-my-car/" class="btn btn-primary btn-lg"><Icon name="CarFront" /> Find what fits my car</a>
+        <a href={site.thule.fitGuideUrl} target="_blank" rel="noopener" class="link-arrow">Or use Thule's fit guide <Icon name="ArrowUpRight" /></a>
+      </div>
+    </div>
+  </section>
+</CategoryLayout>

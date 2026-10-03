@@ -1,0 +1,104 @@
+---
+import { Image } from 'astro:assets';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/sections/PageHero.astro';
+import TrustStrip from '../components/sections/TrustStrip.astro';
+import Reviews from '../components/sections/Reviews.astro';
+import MapHours from '../components/sections/MapHours.astro';
+import Icon from '../components/ui/Icon.astro';
+import { site } from '../data/site';
+import violet from '../assets/images/site/violet-showroom.jpg';
+import showroom from '../assets/images/site/showroom-roof-box.jpg';
+import yard from '../assets/images/site/yard-mercedes-rear-workshop.jpg';
+import buzz from '../assets/images/site/vw-id-buzz-roof-bars-2.jpg';
+
+const crumbs = [{ name: 'About us', href: '/about/' }];
+const values = [
+  { icon: 'HeartHandshake', title: 'Honest advice', text: 'We’ll tell you what you actually need, even if it’s the cheaper option, or a part rather than a whole new rack.' },
+  { icon: 'Timer', title: 'We go the extra mile', text: 'Staying open late, meeting someone with a part the night before their holiday, opening on a bank holiday: it all happens.' },
+  { icon: 'BadgeCheck', title: 'Thule, inside out', text: 'Thule is all we do. That’s why Thule’s own customer service sends people to us.' },
+  { icon: 'Recycle', title: 'Keep good kit going', text: 'Used kit and spare parts keep perfectly good Thule products on the road and out of landfill.' },
+];
+const people = [
+  { name: 'Steve', role: 'Director & Thule specialist', text: 'Fitting, repairs and the person most of our Google reviews mention by name.' },
+  { name: 'Angela', role: 'Director', text: 'Co-owner of the business, and often the friendly voice on the phone or email.' },
+  { name: 'Isabel', role: 'Customer service', text: 'Matching customers to the right kit and keeping orders moving.' },
+  { name: 'Violet', role: 'Office Manager', text: 'Golden retriever. Greets every customer. Chief tester of Thule dog crates.' },
+];
+---
+<BaseLayout
+  title="About Us | Family-Run Thule Specialists Since 2012"
+  description="Skippy's Roof Racks is a family-run Thule specialist in Tuddenham, Ipswich, run by Steve and Angela since 2012. Hire, new and used Thule, free fitting and the UK's only official Thule Service Centre."
+  image={violet}
+  crumbs={crumbs}
+>
+  <PageHero
+    eyebrow={`Family-run since ${site.since}`}
+    title="A small family business with a big love of Thule"
+    lead="Skippy's Roof Racks is run by Steve and Angela from our units at Tuddenham Hall, just outside Ipswich, with a small team and one very friendly golden retriever."
+    image={violet}
+    imageAlt="Violet the golden retriever sitting in the Skippy's showroom next to a Thule Allax dog crate"
+    imagePosition="center 30%"
+    crumbs={crumbs}
+  >
+    <Fragment slot="actions">
+      <a href="/contact/" class="btn btn-primary btn-lg">Get in touch</a>
+      <a href="#visit" class="btn btn-outline btn-lg"><Icon name="MapPin" /> Visit us</a>
+    </Fragment>
+  </PageHero>
+  <TrustStrip />
+
+  <section class="section">
+    <div class="container split">
+      <div>
+        <p class="eyebrow">Our story</p>
+        <h2>Thule specialists, and nothing else</h2>
+        <p class="lead">We set up {site.legalName} in {site.since} to do one thing properly: help people carry more with Thule.</p>
+        <p>Today we hire roof boxes and bars to families heading off on holiday, sell new and used Thule kit to customers all over the UK through our eBay shop (over {site.ebay.itemsSold} items sold, with {site.ebay.positive} positive feedback), fit it free for anyone who buys from us, and repair Thule products that other people have given up on.</p>
+        <p>We're also <strong>the only official Thule Service Centre in the UK</strong>, which is why Thule's own customer service team regularly points people our way for repairs and hard-to-find parts.</p>
+      </div>
+      <div class="about-photos">
+        <div class="media-frame ratio-4-3"><Image src={showroom} alt="Thule roof box in the Skippy's showroom" widths={[480, 720, 960]} sizes="(min-width: 900px) 45vw, 100vw" /></div>
+        <div class="media-frame ratio-4-3"><Image src={buzz} alt="VW ID. Buzz with Thule roof bars in front of the Skippy's workshop" widths={[480, 720]} sizes="(min-width: 900px) 22vw, 50vw" /></div>
+        <div class="media-frame ratio-4-3"><Image src={yard} alt="Car with a roof box outside the Skippy's workshop doors" widths={[480, 720]} sizes="(min-width: 900px) 22vw, 50vw" /></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section bg-white">
+    <div class="container">
+      <div class="section-head"><p class="eyebrow">The team</p><h2>Who you'll speak to</h2></div>
+      <div class="grid grid-4">
+        {people.map((p) => (
+          <div class="card person">
+            <span class="person-av" aria-hidden="true">{p.name === 'Violet' ? <Icon name="Dog" size={28} /> : p.name[0]}</span>
+            <h3>{p.name}</h3>
+            <p class="role">{p.role}</p>
+            <p class="muted">{p.text}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-head"><p class="eyebrow">How we work</p><h2>What we believe in</h2></div>
+      <div class="grid grid-4">
+        {values.map((v) => (
+          <div class="card"><span class="icon-badge"><Icon name={v.icon} /></span><h3>{v.title}</h3><p class="muted">{v.text}</p></div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <Reviews tags={['family', 'violet', 'rescue']} title="In our customers' words" background="paper-2" />
+  <MapHours />
+</BaseLayout>
+<style>
+  .about-photos { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .about-photos > :first-child { grid-column: 1 / -1; }
+  .person-av { display: grid; place-items: center; width: 64px; height: 64px; border-radius: 50%; background: var(--ink); color: var(--accent); font-weight: 900; font-size: 1.6rem; font-stretch: 120%; margin-bottom: 16px; }
+  .person h3 { margin-bottom: 2px; }
+  .role { font-weight: 700; color: var(--muted); font-size: 0.92rem; margin-bottom: 10px; }
+</style>

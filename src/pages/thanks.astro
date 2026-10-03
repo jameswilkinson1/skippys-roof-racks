@@ -1,0 +1,19 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Icon from '../components/ui/Icon.astro';
+import { site } from '../data/site';
+import { ebayUrl } from '../lib/ebay';
+---
+<BaseLayout title="Thank you" description="Thanks for getting in touch with Skippy's Roof Racks." noindex>
+  <section class="section">
+    <div class="container container-narrow center">
+      <span class="icon-badge"><Icon name="CircleCheck" /></span>
+      <h1>Thanks, we've got your message</h1>
+      <p class="lead">We'll be in touch shortly. If it's urgent, call us on <a href={site.phoneHref}>{site.phone}</a>.</p>
+      <div class="btn-row" style="justify-content:center">
+        <a href="/guides/" class="btn btn-dark">Read our guides</a>
+        <a href={ebayUrl()} target="_blank" rel="noopener" class="btn btn-outline">Browse our eBay shop <Icon name="ArrowUpRight" /></a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

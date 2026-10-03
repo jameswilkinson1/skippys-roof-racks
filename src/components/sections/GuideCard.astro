@@ -1,0 +1,24 @@
+---
+import { Image } from 'astro:assets';
+import type { CollectionEntry } from 'astro:content';
+import { categoryLabels } from '../../data/guides';
+interface Props { guide: CollectionEntry<'guides'>; headingLevel?: 'h2' | 'h3' }
+const { guide, headingLevel = 'h3' } = Astro.props;
+const H = headingLevel;
+---
+<article class="card card-media card-link guide-card">
+  <Image src={guide.data.image} alt={guide.data.imageAlt} widths={[360, 540, 720]} sizes="(min-width: 1000px) 30vw, (min-width: 640px) 45vw, 100vw" />
+  <div class="card-body">
+    <span class="pill">{categoryLabels[guide.data.category]}</span>
+    <H class="guide-title"><a href={`/guides/${guide.id}/`} class="stretched">{guide.data.title}</a></H>
+    <p class="muted">{guide.data.description}</p>
+    <span class="link-arrow">Read the guide →</span>
+  </div>
+</article>
+<style>
+  .guide-card .pill { align-self: flex-start; margin-bottom: 12px; }
+  .guide-title { font-size: 1.2rem; line-height: 1.25; }
+  .guide-title a { text-decoration: none; }
+  .guide-card p { font-size: 0.95rem; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+  .guide-card:hover .guide-title a { text-decoration: underline; }
+</style>

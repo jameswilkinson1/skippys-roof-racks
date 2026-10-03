@@ -1,0 +1,31 @@
+---
+interface Props { steps: { title: string; text: string }[]; title?: string; eyebrow?: string; intro?: string; background?: string }
+const { steps, title = 'How it works', eyebrow = 'Simple', intro, background = 'paper' } = Astro.props;
+---
+<section class:list={['section', `bg-${background}`]}>
+  <div class="container">
+    <div class="section-head">
+      <p class="eyebrow">{eyebrow}</p>
+      <h2>{title}</h2>
+      {intro && <p>{intro}</p>}
+    </div>
+    <ol class="steps">
+      {steps.map((s, i) => (
+        <li>
+          <span class="step-num">{i + 1}</span>
+          <h3>{s.title}</h3>
+          <p set:html={s.text} />
+        </li>
+      ))}
+    </ol>
+    <slot />
+  </div>
+</section>
+<style>
+  .steps { list-style: none; padding: 0; margin: 0; display: grid; gap: 18px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); counter-reset: s; }
+  .steps li { position: relative; background: var(--white); border: 1px solid var(--line); border-radius: var(--radius); padding: 26px 24px 24px; }
+  .bg-white .steps li { background: var(--paper); }
+  .step-num { display: grid; place-items: center; width: 44px; height: 44px; border-radius: 50%; background: var(--ink); color: var(--accent); font-weight: 900; font-stretch: 120%; font-size: 1.15rem; margin-bottom: 16px; }
+  .steps h3 { font-size: 1.2rem; }
+  .steps p { margin: 0; color: var(--muted); }
+</style>

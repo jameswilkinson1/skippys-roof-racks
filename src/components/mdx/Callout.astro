@@ -1,0 +1,20 @@
+---
+import Icon from '../ui/Icon.astro';
+interface Props { type?: 'tip' | 'warning' | 'info'; title?: string }
+const { type = 'tip', title } = Astro.props;
+const icon = { tip: 'Lightbulb', warning: 'TriangleAlert', info: 'Info' }[type];
+const defaultTitle = { tip: 'Tip', warning: 'Important', info: 'Good to know' }[type];
+---
+<aside class:list={['callout', type]}>
+  <p class="callout-title"><Icon name={icon} size={20} /> {title ?? defaultTitle}</p>
+  <div class="callout-body"><slot /></div>
+</aside>
+<style>
+  .callout { padding: 18px 20px; border-radius: var(--radius); border: 1px solid var(--line); background: var(--white); margin-block: 1.6em; }
+  .callout.tip { background: var(--accent-soft); border-color: #f1d98a; }
+  .callout.warning { background: #fff1ef; border-color: #f5c4bd; }
+  .callout.info { background: #eef4ff; border-color: #c9dbfb; }
+  .callout-title { display: flex; align-items: center; gap: 8px; font-weight: 800; font-stretch: 106%; margin: 0 0 6px !important; }
+  .callout-body :global(p) { margin: 0; }
+  .callout-body :global(p + p) { margin-top: 0.6em; }
+</style>

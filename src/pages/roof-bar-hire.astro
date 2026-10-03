@@ -1,0 +1,72 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/sections/PageHero.astro';
+import TrustStrip from '../components/sections/TrustStrip.astro';
+import FAQ from '../components/sections/FAQ.astro';
+import CTABand from '../components/sections/CTABand.astro';
+import RelatedGuides from '../components/sections/RelatedGuides.astro';
+import Icon from '../components/ui/Icon.astro';
+import { site, hire } from '../data/site';
+import heroImg from '../assets/images/site/vw-id-buzz-roof-bars.jpg';
+
+const crumbs = [{ name: 'Roof box hire', href: '/roof-box-hire/' }, { name: 'Roof bar hire', href: '/roof-bar-hire/' }];
+const bars = hire.packages.find((p) => p.id === 'bars')!;
+const faqs = [
+  { q: 'Will you have roof bars to fit my car?', a: 'We keep a large stock of Thule bars, foot packs and fitting kits, including kits for older and discontinued cars. Send us your make, model, year and roof type and we’ll confirm.' },
+  { q: 'Can I carry bikes or a kayak on hired roof bars?', a: 'Yes. Hired bars work with roof-mounted bike carriers, kayak and SUP carriers, ski racks and roof boxes. Always stay within your car’s roof load limit (it’s in your handbook).' },
+  { q: 'Do you fit the bars?', a: 'Yes. We fit them at our Tuddenham workshop, set the correct spacing and torque, and show you how to check them before you set off.' },
+  { q: 'Should I hire or buy roof bars?', a: 'If you’ll use them more than a couple of times a year, buying (especially used) is usually better value, and Thule bars hold their value well. <a href="/thule-roof-bars/">See our roof bars</a>.' },
+];
+---
+<BaseLayout
+  title="Roof Bar Hire Ipswich & Suffolk | Thule Roof Bars Fitted"
+  description="Hire genuine Thule roof bars with the right fitting kit for your car, fitted at our Tuddenham workshop near Ipswich. Ideal for bikes, kayaks, skis or your own roof box."
+  image={heroImg}
+  crumbs={crumbs}
+>
+  <PageHero
+    eyebrow="Roof bar hire · Ipswich & Suffolk"
+    title="Roof bar hire, fitted to your car"
+    lead="Need roof bars for one trip? Hire genuine Thule bars with the correct foot pack and fitting kit for your car. Perfect for bike carriers, kayaks, skis or your own roof box."
+    points={['Thule WingBar, ProBar and SquareBar systems', 'Kits for current and older cars', 'Fitted and checked at our workshop']}
+    image={heroImg}
+    imageAlt="Black VW ID. Buzz with black Thule roof bars fitted at Skippy's yard"
+    crumbs={crumbs}
+  >
+    <Fragment slot="actions">
+      <a href="/roof-box-hire/#book" class="btn btn-primary btn-lg"><Icon name="CalendarCheck" /> Check availability</a>
+      <a href={site.phoneHref} class="btn btn-outline btn-lg"><Icon name="Phone" /> {site.phone}</a>
+    </Fragment>
+  </PageHero>
+  <TrustStrip />
+
+  <section class="section">
+    <div class="container split split-top">
+      <div>
+        <p class="eyebrow">Prices</p>
+        <h2>Roof bar hire prices</h2>
+        <p class="lead">{bars.blurb}</p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Hire period</th><th>Price</th></tr></thead>
+            <tbody>{bars.prices.map((r) => <tr><td>{r.period}</td><td><strong>{r.price}</strong></td></tr>)}</tbody>
+          </table>
+        </div>
+        <p class="small muted" style="margin-top:12px">{hire.pricesConfirmed ? '' : 'Guide prices, confirmed when you enquire. '}{hire.deposit}.</p>
+      </div>
+      <div class="card">
+        <h3>Want a roof box too?</h3>
+        <p>Our most popular package is a roof box with bars, everything fitted and ready to go.</p>
+        <a href="/roof-box-hire/#prices" class="btn btn-primary">See box + bars hire <Icon name="ArrowRight" /></a>
+        <hr class="divider" style="margin:24px 0" />
+        <h3>Buying instead?</h3>
+        <p>We sell new and used Thule roof bars and fitting kits for hundreds of cars.</p>
+        <a href="/thule-roof-bars/" class="link-arrow">Shop roof bars <Icon name="ArrowRight" /></a>
+      </div>
+    </div>
+  </section>
+
+  <FAQ faqs={faqs} title="Roof bar hire FAQs" />
+  <CTABand />
+  <RelatedGuides slugs={['which-thule-roof-bars', 'roof-box-without-roof-rails', 'thule-fitting-kits-explained']} />
+</BaseLayout>

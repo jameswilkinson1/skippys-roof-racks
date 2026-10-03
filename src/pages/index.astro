@@ -1,0 +1,308 @@
+---
+import { Image } from 'astro:assets';
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import TrustStrip from '../components/sections/TrustStrip.astro';
+import EbayGrid from '../components/sections/EbayGrid.astro';
+import Reviews from '../components/sections/Reviews.astro';
+import MapHours from '../components/sections/MapHours.astro';
+import GuideCard from '../components/sections/GuideCard.astro';
+import Icon from '../components/ui/Icon.astro';
+import Stars from '../components/ui/Stars.astro';
+import GoogleG from '../components/ui/GoogleG.astro';
+import { site, hire } from '../data/site';
+import { reviews } from '../data/reviews';
+import { ebayUrl } from '../lib/ebay';
+import { getGoogleSummary } from '../lib/google-reviews';
+
+import heroImg from '../assets/images/site/yard-mercedes-roof-box.jpg';
+import hireImg from '../assets/images/site/yard-van-roof-box.jpg';
+import shopImg from '../assets/images/site/showroom-roof-box.jpg';
+import fitImg from '../assets/images/site/yard-lexus-roof-box.jpg';
+import repairImg from '../assets/images/products/thule-velospace-xt-2.jpg';
+import violetImg from '../assets/images/site/violet-showroom.jpg';
+import serviceImg from '../assets/images/site/polo-roof-box-bike-rack.jpg';
+import boxesImg from '../assets/images/products/thule-pulse-2-xl.jpg';
+import barsImg from '../assets/images/products/thule-wingbar-evo-black.jpg';
+import kitImg from '../assets/images/products/thule-fitting-kit-6080.jpg';
+import bikeImg from '../assets/images/products/thule-velospace-3.jpg';
+import dogImg from '../assets/images/products/thule-allax-m.jpg';
+import childImg from '../assets/images/products/thule-chariot-cross-2-single.jpg';
+
+const google = await getGoogleSummary();
+const guides = (await getCollection('guides', ({ data }) => !data.draft))
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+  .slice(0, 3);
+const fromPrice = hire.packages.find((p) => p.id === 'box')?.prices[0]?.price;
+const thuleQuotes = reviews.filter((r) => ['Mark Somerville', 'Richard Bointon', 'Dennis Walters'].includes(r.author));
+
+const services = [
+  { title: 'Roof box hire', text: 'Genuine Thule roof boxes and bars for your holiday, fitted to your car before you drive away.', href: '/roof-box-hire/', cta: 'Hire options & prices', img: hireImg, alt: 'Orange MPV with a black roof box outside the Skippy’s workshop', icon: 'CalendarCheck' },
+  { title: 'New & used Thule', text: 'Hundreds of roof boxes, bars, fitting kits and bike carriers. Used and ex-display kit at a fraction of the new price.', href: '/used-thule/', cta: 'Shop new & used', img: shopImg, alt: 'Black Thule roof box with mounting hardware in the Skippy’s showroom', icon: 'ShoppingBag' },
+  { title: 'Free fitting', text: 'Buy from us and we’ll fit it free at our Tuddenham workshop, then show you exactly how it all works.', href: '/fitting/', cta: 'How fitting works', img: fitImg, alt: 'Grey Lexus with a black Thule roof box fitted at the Skippy’s yard', icon: 'Wrench' },
+  { title: 'Repairs & spare parts', text: 'The only official Thule Service Centre in the UK. Bike carriers, roof boxes, locks and hard-to-find parts.', href: '/thule-repairs/', cta: 'Book a repair', img: repairImg, alt: 'Thule VeloSpace XT towbar bike carrier in the Skippy’s workshop', icon: 'Hammer' },
+];
+
+const shopTiles = [
+  { title: 'Roof boxes', text: 'Motion, Force, Pulse, Touring and more.', image: boxesImg, alt: 'Black Thule Pulse 2 roof box', query: 'roof box' },
+  { title: 'Roof bars', text: 'WingBar Evo, WingBar Edge, ProBar and SquareBar.', image: barsImg, alt: 'Black Thule WingBar Evo roof bars with foot pack', query: 'thule bar' },
+  { title: 'Fitting kits & foot packs', text: 'Kits for current and long-discontinued cars.', image: kitImg, alt: 'Boxed Thule fitting kit', query: 'thule fitting kit' },
+  { title: 'Bike carriers', text: 'Towbar, roof and boot-mounted carriers.', image: bikeImg, alt: 'Thule VeloSpace towbar bike carrier', query: 'thule bike' },
+  { title: 'Dog crates', text: 'Thule Allax crates for safer journeys.', image: dogImg, alt: 'Thule Allax dog crate with accessories', query: 'thule allax' },
+  { title: 'Child trailers, strollers & seats', text: 'Chariot, Urban Glide, Yepp and more.', image: childImg, alt: 'Thule Chariot Cross child trailer', query: 'thule chariot', conditions: ['any'] as ('any')[] },
+];
+
+const reasons = [
+  { icon: 'BadgeCheck', title: 'Thule specialists, nothing else', text: 'We live and breathe Thule. Thule’s own customer service sends people to us for repairs and parts.' },
+  { icon: 'PoundSterling', title: 'Save on used & ex-display', text: 'Customers regularly tell us they paid around half the new price for kit that looks brand new.' },
+  { icon: 'Wrench', title: 'Fitted free, explained properly', text: 'Buy from us and we fit it free, then show you how to lift, lock, load and remove it yourself.' },
+  { icon: 'CarFront', title: 'We find what fits', text: 'Old car? Unusual roof? We source kits for vehicles Thule discontinued years ago.' },
+  { icon: 'Truck', title: 'Fast UK delivery', text: 'Well-packed parcels dispatched quickly through our eBay shop, often arriving the next day.' },
+  { icon: 'HeartHandshake', title: 'A family business that cares', text: 'Last-minute holiday panic? Call us. We’ll always do our best to get you on the road.' },
+];
+---
+
+<BaseLayout
+  title="Thule Roof Box Hire, Roof Bars & Repairs | Skippy's Roof Racks, Ipswich"
+  description="Family-run Thule specialists in Ipswich, Suffolk. Roof box & roof bar hire, new and used Thule kit with free fitting, and expert repairs: the only official Thule Service Centre in the UK."
+  image={heroImg}
+>
+  <!-- Hero -->
+  <section class="home-hero">
+    <div class="container hero-grid">
+      <div class="hero-copy">
+        <p class="eyebrow">Thule specialists · Tuddenham, Ipswich · Since {site.since}</p>
+        <h1>Thule roof boxes, bars &amp; bike racks. Hire, buy new or used, <span class="text-accent-mark">fitted&nbsp;free.</span></h1>
+        <p class="lead">A family business and <strong>the only official Thule Service Centre in the UK</strong>. Hire a roof box for your holiday, save on used and ex-display Thule, or get your kit repaired by the people Thule recommends.</p>
+        <div class="btn-row">
+          <a href="/roof-box-hire/" class="btn btn-primary btn-lg"><Icon name="CalendarCheck" /> Hire a roof box</a>
+          <a href="/used-thule/" class="btn btn-dark btn-lg"><Icon name="ShoppingBag" /> Shop new &amp; used</a>
+        </div>
+        <ul class="hero-quick">
+          <li><a href="/thule-repairs/"><Icon name="Wrench" size={18} /> Book a repair</a></li>
+          <li><a href="/which-roof-bars-fit-my-car/"><Icon name="CarFront" size={18} /> What fits my car?</a></li>
+          <li><a href={site.phoneHref}><Icon name="Phone" size={18} /> {site.phone}</a></li>
+        </ul>
+      </div>
+      <div class="hero-visual">
+        <div class="media-frame hero-frame">
+          <Image src={heroImg} alt="Grey Mercedes SUV with a Thule roof box at the Skippy's Roof Racks yard in Tuddenham" widths={[600, 900, 1200, 1600]} sizes="(min-width: 900px) 50vw, 100vw" loading="eager" fetchpriority="high" />
+        </div>
+        <a class="float-card float-google" href={site.google.reviewsUrl} target="_blank" rel="noopener">
+          <GoogleG size={28} />
+          <span><strong>{google.rating.toFixed(1)} <Stars rating={google.rating} size={14} label={false} /></strong><small>{google.reviewCount}+ Google reviews</small></span>
+        </a>
+        <div class="float-card float-fit">
+          <span class="float-icon"><Icon name="Wrench" size={20} /></span>
+          <span><strong>Free fitting</strong><small>with every purchase</small></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <TrustStrip />
+
+  <!-- Services -->
+  <section class="section">
+    <div class="container">
+      <div class="section-head">
+        <p class="eyebrow">What we do</p>
+        <h2>Everything for your roof, towbar and boot, under one roof</h2>
+        <p>Whether it's one trip or every weekend, we'll get you the right Thule kit at the right price.</p>
+      </div>
+      <div class="grid grid-4 services">
+        {services.map((s) => (
+          <article class="card card-media card-link service-card">
+            <Image src={s.img} alt={s.alt} widths={[360, 540, 720]} sizes="(min-width: 1100px) 25vw, (min-width: 640px) 45vw, 100vw" />
+            <div class="card-body">
+              <h3><a href={s.href} class="stretched">{s.title}</a></h3>
+              <p class="muted">{s.text}</p>
+              <span class="link-arrow">{s.cta} <Icon name="ArrowRight" /></span>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Hire band -->
+  <section class="section bg-ink on-dark hire-band">
+    <div class="container split split-wide-left">
+      <div>
+        <p class="eyebrow">Roof box hire · Ipswich &amp; Suffolk</p>
+        <h2>Going away? Hire a genuine Thule roof box</h2>
+        <p class="lead">Box, bars and the right fitting kit for your car, fitted at our workshop with a quick demo. Hand it back when you're home. No storage, no hassle.</p>
+        <ul class="checklist">
+          {hire.included.map((i) => <li>{i}</li>)}
+        </ul>
+        <div class="btn-row">
+          <a href="/roof-box-hire/#book" class="btn btn-primary btn-lg">Check dates &amp; book</a>
+          <a href="/roof-box-hire/#prices" class="btn btn-ghost-light btn-lg">See hire prices</a>
+        </div>
+      </div>
+      <div class="hire-card">
+        <p class="hire-card-label">{hire.pricesConfirmed ? 'Roof box hire from' : 'Guide price from'}</p>
+        <p class="hire-card-price">{fromPrice}</p>
+        <p class="hire-card-sub">Roof box only, short hire. Box + bars packages available.</p>
+        <hr />
+        <ul class="hire-sizes">
+          {hire.fleet.map((f) => <li><strong>{f.size}</strong><span>{f.litres}</span></li>)}
+        </ul>
+        <a href="/roof-box-hire/" class="link-arrow">Compare sizes &amp; what fits <Icon name="ArrowRight" /></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Shop -->
+  <section class="section">
+    <div class="container">
+      <div class="section-head">
+        <p class="eyebrow">Shop on eBay</p>
+        <h2>New &amp; used Thule, at prices that make sense</h2>
+        <p>Our full stock lives in our eBay shop, with {site.ebay.positive} positive feedback from {site.ebay.feedbackCount} ratings. Collect from Tuddenham and we'll fit it free, or have it delivered anywhere in the UK.</p>
+      </div>
+      <EbayGrid tiles={shopTiles} />
+      <div class="btn-row shop-more">
+        <a href={ebayUrl()} target="_blank" rel="noopener" class="btn btn-dark">Browse the whole shop on eBay <Icon name="ArrowUpRight" /></a>
+        <a href="/used-thule/" class="link-arrow">How buying used works <Icon name="ArrowRight" /></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Thule Service Centre -->
+  <section class="section bg-white">
+    <div class="container split">
+      <div class="media-frame ratio-3-4 service-media">
+        <Image src={serviceImg} alt="White VW Polo with a Thule roof box and a covered towbar carrier" widths={[480, 720, 960]} sizes="(min-width: 900px) 45vw, 100vw" />
+      </div>
+      <div>
+        <p class="eyebrow">Official Thule Service Centre</p>
+        <h2>When Thule kit breaks, Thule sends people to us</h2>
+        <p class="lead">We're the only official Thule Service Centre in the UK. Snapped tilt pedals, seized locks, lost keys, cracked brackets, obsolete parts: we fix them in our workshop or by post, and get you back on the road.</p>
+        <div class="quote-stack">
+          {thuleQuotes.map((q) => (
+            <figure class="mini-quote">
+              <blockquote>“{q.text.length > 150 ? q.text.slice(0, q.text.lastIndexOf(' ', 150)) + '…' : q.text}”</blockquote>
+              <figcaption><Stars size={13} label={false} /> {q.author}, Google review</figcaption>
+            </figure>
+          ))}
+        </div>
+        <div class="btn-row">
+          <a href="/thule-repairs/" class="btn btn-dark btn-lg">Thule repairs <Icon name="ArrowRight" /></a>
+          <a href="/thule-spare-parts/" class="btn btn-outline btn-lg">Spare parts &amp; keys</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Why us -->
+  <section class="section">
+    <div class="container">
+      <div class="section-head center">
+        <p class="eyebrow">Why Skippy's</p>
+        <h2>Why customers travel miles to see us</h2>
+        <p>And order from as far away as Glasgow and Cornwall. Here's what they tell us.</p>
+      </div>
+      <div class="grid grid-3">
+        {reasons.map((r) => (
+          <div class="card reason">
+            <span class="icon-badge"><Icon name={r.icon} /></span>
+            <h3>{r.title}</h3>
+            <p class="muted">{r.text}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <Reviews background="paper-2" title="5-star service, 280+ times over" />
+
+  <!-- Family & Violet -->
+  <section class="section bg-white">
+    <div class="container split split-wide-right">
+      <div class="violet-wrap">
+        <div class="media-frame ratio-3-4">
+          <Image src={violetImg} alt="Violet the golden retriever sitting next to a Thule Allax dog crate in the Skippy's showroom" widths={[480, 720, 960]} sizes="(min-width: 900px) 40vw, 100vw" />
+        </div>
+        <span class="violet-tag"><Icon name="Dog" size={18} /> Violet, Office Manager</span>
+      </div>
+      <div>
+        <p class="eyebrow">Family-run since {site.since}</p>
+        <h2>Meet Steve, Angela, the team… and Violet</h2>
+        <p class="lead">Skippy's is a family business run by Steve and Angela from our units at Tuddenham Hall, just outside Ipswich.</p>
+        <p>We do one thing and we know it inside out: Thule. Our eBay shop has sold more than 71,000 items, and we still do things the old-fashioned way. We answer the phone, give honest advice, and stay late when someone's holiday depends on it.</p>
+        <p>Pop in and you'll probably be greeted by Violet, our golden retriever and self-appointed office manager. She's also our chief tester of Thule dog crates.</p>
+        <a href="/about/" class="btn btn-outline">Our story <Icon name="ArrowRight" /></a>
+      </div>
+    </div>
+  </section>
+
+  {guides.length > 0 && (
+    <section class="section">
+      <div class="container">
+        <div class="guides-head">
+          <div class="section-head mb-0">
+            <p class="eyebrow">Guides</p>
+            <h2>Roof box advice from the workshop</h2>
+          </div>
+          <a href="/guides/" class="link-arrow">All guides <Icon name="ArrowRight" /></a>
+        </div>
+        <div class="grid grid-3">
+          {guides.map((g) => <GuideCard guide={g} />)}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <MapHours />
+</BaseLayout>
+
+<style>
+  .home-hero { padding-block: clamp(28px, 5vw, 72px) clamp(40px, 6vw, 88px); background: radial-gradient(1200px 500px at 85% 0%, var(--accent-soft), transparent 60%), var(--white); overflow: hidden; }
+  .hero-grid { display: grid; gap: clamp(32px, 5vw, 64px); align-items: center; }
+  @media (min-width: 960px) { .hero-grid { grid-template-columns: 1fr 1fr; } }
+  .hero-copy h1 { margin-bottom: 0.4em; font-size: clamp(2.2rem, 4.4vw, 3.6rem); }
+  .hero-copy .lead { margin-bottom: 1.6em; max-width: 600px; }
+  .hero-copy .lead strong { color: var(--ink); }
+  .hero-quick { list-style: none; padding: 0; margin: 22px 0 0; display: flex; flex-wrap: wrap; gap: 8px 22px; }
+  .hero-quick a { display: inline-flex; align-items: center; gap: 6px; font-weight: 700; text-decoration: none; color: var(--muted); }
+  .hero-quick a:hover { color: var(--ink); text-decoration: underline; }
+  .hero-visual { position: relative; }
+  .hero-frame { aspect-ratio: 4 / 3.4; }
+  .float-card {
+    position: absolute; display: flex; align-items: center; gap: 12px; padding: 12px 16px; background: var(--white); border-radius: var(--radius);
+    box-shadow: var(--shadow-lg); text-decoration: none; line-height: 1.2;
+  }
+  .float-card strong { display: flex; align-items: center; gap: 6px; font-weight: 850; font-stretch: 108%; }
+  .float-card small { display: block; color: var(--muted); font-size: 0.8rem; }
+  .float-google { left: -18px; bottom: 28px; }
+  .float-fit { right: -14px; top: 24px; }
+  .float-icon { display: grid; place-items: center; width: 36px; height: 36px; border-radius: 10px; background: var(--accent); }
+  @media (max-width: 1100px) { .float-google { left: 12px; } .float-fit { right: 12px; } }
+  @media (max-width: 520px) { .float-fit { display: none; } .float-google { bottom: 12px; } }
+
+  .service-card h3 a { text-decoration: none; }
+  .service-card:hover h3 a { text-decoration: underline; }
+
+  .hire-band .checklist li { color: rgb(255 255 255 / 0.88); }
+  .hire-card { background: var(--white); color: var(--ink); border-radius: var(--radius-lg); padding: clamp(24px, 3vw, 36px); box-shadow: var(--shadow-lg); }
+  .hire-card-label { margin: 0; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; font-size: 0.8rem; }
+  .hire-card-price { font-size: clamp(3rem, 6vw, 4.2rem); font-weight: 900; font-stretch: 118%; line-height: 1; margin: 6px 0 8px; }
+  .hire-card-sub { color: var(--muted); margin-bottom: 18px; }
+  .hire-card hr { border: 0; border-top: 1px solid var(--line); margin: 0 0 16px; }
+  .hire-sizes { list-style: none; padding: 0; margin: 0 0 18px; display: grid; gap: 8px; }
+  .hire-sizes li { display: flex; justify-content: space-between; gap: 12px; padding: 10px 14px; background: var(--paper); border-radius: var(--radius-sm); }
+  .hire-sizes span { color: var(--muted); }
+
+  .shop-more { margin-top: 28px; gap: 24px; }
+  .service-media { max-height: 640px; }
+  .quote-stack { display: grid; gap: 12px; margin: 24px 0 28px; }
+  .mini-quote { margin: 0; padding: 14px 18px; background: var(--paper); border-left: 4px solid var(--accent); border-radius: 0 var(--radius-sm) var(--radius-sm) 0; }
+  .mini-quote blockquote { margin: 0 0 6px; font-size: 0.97rem; }
+  .mini-quote figcaption { display: flex; align-items: center; gap: 8px; font-size: 0.82rem; font-weight: 700; color: var(--muted); }
+  .reason h3 { font-size: 1.2rem; }
+
+  .violet-wrap { position: relative; max-width: 520px; }
+  .violet-tag { position: absolute; left: 18px; bottom: 18px; display: inline-flex; align-items: center; gap: 8px; padding: 10px 16px; border-radius: 999px; background: var(--accent); font-weight: 800; box-shadow: var(--shadow); }
+  .guides-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 16px; flex-wrap: wrap; margin-bottom: 32px; }
+</style>

@@ -1,0 +1,23 @@
+---
+import { getCollection } from 'astro:content';
+import GuideCard from './GuideCard.astro';
+import Icon from '../ui/Icon.astro';
+interface Props { slugs: string[]; title?: string; background?: string }
+const { slugs, title = 'Helpful guides', background = 'paper' } = Astro.props;
+const all = await getCollection('guides', ({ data }) => !data.draft);
+const guides = slugs.map((s) => all.find((g) => g.id === s)).filter((g): g is NonNullable<typeof g> => !!g).slice(0, 3);
+---
+{guides.length > 0 && (
+  <section class:list={['section', `bg-${background}`]}>
+    <div class="container">
+      <div class="rg-head">
+        <div class="section-head mb-0"><p class="eyebrow">Guides</p><h2>{title}</h2></div>
+        <a href="/guides/" class="link-arrow">All guides <Icon name="ArrowRight" /></a>
+      </div>
+      <div class="grid grid-3">{guides.map((g) => <GuideCard guide={g} />)}</div>
+    </div>
+  </section>
+)}
+<style>
+  .rg-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 16px; flex-wrap: wrap; margin-bottom: 32px; }
+</style>

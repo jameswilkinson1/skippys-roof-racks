@@ -1,0 +1,46 @@
+---
+import FormShell from './FormShell.astro';
+import ContactFields from './ContactFields.astro';
+import VehicleFields from './VehicleFields.astro';
+---
+<FormShell id="fit-form" subject="Which roof bars fit my car? Website enquiry" submitLabel="Find my fit" note="We'll reply with the exact bars, foot pack and fitting kit for your car, new and used options.">
+  <VehicleFields prefix="fit" />
+  <div class="form-row form-row-2">
+    <div class="field">
+      <label for="fit-body">Body style</label>
+      <select class="select" id="fit-body" name="body_style">
+        <option value="">Select</option>
+        <option>Hatchback</option><option>Estate</option><option>Saloon</option><option>SUV / 4x4</option>
+        <option>MPV</option><option>Van / pick-up</option><option>Coupé / convertible</option><option>Motorhome / campervan</option>
+      </select>
+    </div>
+    <div class="field">
+      <label for="fit-reg">Registration (optional)</label>
+      <input class="input" id="fit-reg" name="registration" placeholder="Helps us check the exact model" autocomplete="off" />
+    </div>
+  </div>
+  <fieldset class="field">
+    <legend>What do you want to carry?</legend>
+    <div class="choice-grid">
+      <label class="choice"><input type="checkbox" name="carry" value="Roof box" /><span>Roof box</span></label>
+      <label class="choice"><input type="checkbox" name="carry" value="Bikes" /><span>Bikes</span></label>
+      <label class="choice"><input type="checkbox" name="carry" value="Kayak / SUP" /><span>Kayak / SUP</span></label>
+      <label class="choice"><input type="checkbox" name="carry" value="Skis / snowboards" /><span>Skis</span></label>
+      <label class="choice"><input type="checkbox" name="carry" value="Other" /><span>Something else</span></label>
+    </div>
+  </fieldset>
+  <fieldset class="field">
+    <legend>New or used?</legend>
+    <div class="choice-grid">
+      <label class="choice"><input type="radio" name="new_or_used" value="Either, best value" checked /><span>Either<small>Best value</small></span></label>
+      <label class="choice"><input type="radio" name="new_or_used" value="New" /><span>New</span></label>
+      <label class="choice"><input type="radio" name="new_or_used" value="Used" /><span>Used</span></label>
+      <label class="choice"><input type="radio" name="new_or_used" value="Hire" /><span>Hire</span></label>
+    </div>
+  </fieldset>
+  <ContactFields prefix="fit" />
+  <div class="field">
+    <label for="fit-msg">Anything else we should know?</label>
+    <textarea class="textarea" id="fit-msg" name="message" placeholder="e.g. I already have Thule bars from my old car, or a box I want to fit"></textarea>
+  </div>
+</FormShell>

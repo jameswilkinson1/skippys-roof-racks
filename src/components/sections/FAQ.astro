@@ -1,0 +1,41 @@
+---
+import Icon from '../ui/Icon.astro';
+interface Props { faqs: { q: string; a: string }[]; title?: string; eyebrow?: string; background?: string; schema?: boolean; id?: string }
+const { faqs, title = 'Frequently asked questions', eyebrow = 'FAQs', background = 'white', schema = true, id = 'faqs' } = Astro.props;
+const json = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a.replace(/<[^>]+>/g, '') } })),
+};
+---
+<section class:list={['section faq', `bg-${background}`]} id={id}>
+  <div class="container faq-grid">
+    <div class="section-head">
+      <p class="eyebrow">{eyebrow}</p>
+      <h2>{title}</h2>
+      <slot name="intro"><p>Can't see your question? Call <a href="tel:+441473785810">01473 785810</a> and we'll help.</p></slot>
+    </div>
+    <div class="faq-list">
+      {faqs.map((f) => (
+        <details>
+          <summary><span>{f.q}</span><Icon name="ChevronDown" /></summary>
+          <div class="faq-a" set:html={f.a} />
+        </details>
+      ))}
+    </div>
+  </div>
+  {schema && <script type="application/ld+json" set:html={JSON.stringify(json)} />}
+</section>
+<style>
+  .faq-grid { display: grid; gap: 24px; }
+  @media (min-width: 960px) { .faq-grid { grid-template-columns: 0.8fr 1.2fr; gap: 64px; align-items: start; } .faq-grid .section-head { position: sticky; top: calc(var(--header-h) + 24px); } }
+  .faq-list { display: grid; gap: 10px; }
+  details { background: var(--paper); border: 1px solid var(--line); border-radius: var(--radius); }
+  .bg-paper details, .bg-paper-2 details { background: var(--white); }
+  summary { display: flex; justify-content: space-between; gap: 16px; align-items: center; cursor: pointer; list-style: none; padding: 18px 20px; font-weight: 750; font-stretch: 104%; font-size: 1.05rem; }
+  summary::-webkit-details-marker { display: none; }
+  summary :global(svg) { flex: none; transition: transform 0.2s; }
+  details[open] summary :global(svg) { transform: rotate(180deg); }
+  .faq-a { padding: 0 20px 20px; color: var(--ink-2); }
+  .faq-a :global(p:last-child) { margin-bottom: 0; }
+</style>

@@ -1,0 +1,76 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/sections/PageHero.astro';
+import TrustStrip from '../components/sections/TrustStrip.astro';
+import EbayGrid from '../components/sections/EbayGrid.astro';
+import Reviews from '../components/sections/Reviews.astro';
+import FAQ from '../components/sections/FAQ.astro';
+import CTABand from '../components/sections/CTABand.astro';
+import RelatedGuides from '../components/sections/RelatedGuides.astro';
+import Icon from '../components/ui/Icon.astro';
+import { site } from '../data/site';
+import { ebayUrl } from '../lib/ebay';
+import heroImg from '../assets/images/products/thule-lock-set-n201-n250.jpg';
+import keyImg from '../assets/images/products/thule-comfort-key-n199.jpg';
+import strip from '../assets/images/products/thule-squarebar-evo.jpg';
+import bike from '../assets/images/products/thule-velospace-3.jpg';
+import box from '../assets/images/products/halfords-470l-roof-box-grey.jpg';
+import kit from '../assets/images/products/thule-fitting-kit-6080.jpg';
+import stroller from '../assets/images/products/thule-spring-city-pushchair.jpg';
+
+const crumbs = [{ name: 'Spare parts & keys', href: '/thule-spare-parts/' }];
+const tiles = [
+  { title: 'Replacement keys', text: 'Thule keys by number, N001–N250, new and used.', image: keyImg, alt: 'A single Thule replacement key', query: 'thule key', conditions: ['any' as const] },
+  { title: 'Lock cylinders & lock sets', text: 'Swap your locks so one key fits everything.', image: heroImg, alt: 'Thule lock cylinders with keys', query: 'thule lock', conditions: ['any' as const] },
+  { title: 'Bike carrier spares', text: 'Straps, wheel holders, lamps, lenses, pedals and more.', image: bike, alt: 'Thule VeloSpace towbar bike carrier', query: 'thule replacement', conditions: ['any' as const] },
+  { title: 'Roof box spares', text: 'Lock housings, brackets, straps, U-bolts and T-track adapters.', image: box, alt: 'Grey roof box with fittings', query: 'roof box strap', conditions: ['any' as const] },
+  { title: 'Roof bar spares', text: 'Rubber strips, end caps, bolts, pads and covers.', image: strip, alt: 'Thule SquareBar Evo roof bars', query: 'thule rubber strip', conditions: ['any' as const] },
+  { title: 'Fitting kits', text: 'Kits for hundreds of cars, including older models.', image: kit, alt: 'Boxed Thule fitting kit', query: 'thule fitting kit', conditions: ['any' as const] },
+  { title: 'Stroller & trailer spares', text: 'Wheels, tyres, handlebars and trays.', image: stroller, alt: 'Thule Spring pushchair', query: 'thule glide', conditions: ['any' as const] },
+];
+const faqs = [
+  { q: 'How do I find my Thule key number?', a: 'Thule keys and lock cylinders are numbered from N001 to N250. The number is printed on the key, and on many older locks it\u2019s on the lock face too. Read our guide: <a href="/guides/lost-thule-roof-box-key/">lost your Thule key?</a>' },
+  { q: 'I’ve lost my key and don’t know the number. What now?', a: `Call us on ${site.phone}. Depending on the product, we can often help identify or replace the lock so you can get going again.` },
+  { q: 'Can I make all my Thule locks use one key?', a: 'Yes. Thule lock cylinders can be swapped so your roof bars, box and bike carrier share a single key. We sell matched lock sets.' },
+  { q: 'Thule told me the part isn’t available. Can you help?', a: 'Very likely. As the only official Thule Service Centre in the UK, we stock and source parts that aren’t sold directly, including for discontinued products.' },
+  { q: 'Can you post parts to me?', a: 'Yes. Parts are dispatched quickly through our eBay shop or directly from us, and often arrive the next day.' },
+];
+---
+<BaseLayout
+  title="Thule Spare Parts, Replacement Keys & Locks | UK"
+  description="Thule spare parts, replacement keys (N001–N250) and lock cylinders for roof boxes, roof bars and bike carriers, including discontinued models. Fast UK delivery from Ipswich."
+  image={heroImg}
+  crumbs={crumbs}
+>
+  <PageHero
+    eyebrow="Spare parts · Keys · Locks"
+    title="Thule spare parts &amp; replacement keys"
+    lead="Lost a key, snapped a strap or need a part Thule no longer lists? As the only official Thule Service Centre in the UK, we stock thousands of Thule spares and can usually get you going quickly."
+    points={['Keys and lock cylinders N001–N250', 'Parts for discontinued Thule products', 'Fast, well-packed UK delivery']}
+    image={heroImg}
+    imageAlt="Two Thule lock cylinders with keys"
+    crumbs={crumbs}
+  >
+    <Fragment slot="actions">
+      <a href={ebayUrl('thule')} target="_blank" rel="noopener" class="btn btn-primary btn-lg"><Icon name="Search" /> Search our spares</a>
+      <a href="/contact/" class="btn btn-outline btn-lg">Ask about a part</a>
+    </Fragment>
+  </PageHero>
+  <TrustStrip />
+
+  <section class="section">
+    <div class="container">
+      <div class="section-head">
+        <p class="eyebrow">Shop spares on eBay</p>
+        <h2>Find your part</h2>
+        <p>Tip: search eBay with the Thule part number (e.g. 52990) or your product name. If you can't find it, <a href="/contact/">send us a photo</a> and we'll identify it.</p>
+      </div>
+      <EbayGrid tiles={tiles} columns={4} />
+    </div>
+  </section>
+
+  <Reviews tags={['parts', 'keys', 'thule']} title="Parts nobody else could find" background="paper-2" />
+  <FAQ faqs={faqs} title="Spare parts & keys FAQs" />
+  <CTABand title="Need it fitting, or not sure what's broken?" text="Bring it to our workshop or post it to us. As the only official Thule Service Centre in the UK, we'll diagnose and repair it." primaryLabel="Thule repairs" primaryHref="/thule-repairs/" icon="Wrench" />
+  <RelatedGuides slugs={['lost-thule-roof-box-key', 'thule-bike-rack-repair-common-faults', 'thule-fitting-kits-explained']} />
+</BaseLayout>

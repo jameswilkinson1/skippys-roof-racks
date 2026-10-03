@@ -1,0 +1,51 @@
+---
+import FormShell from './FormShell.astro';
+import ContactFields from './ContactFields.astro';
+import VehicleFields from './VehicleFields.astro';
+---
+<FormShell id="hire-form" subject="Hire enquiry from website" submitLabel="Check availability" note="We'll confirm availability and price by email or phone. Nothing is booked until we've spoken.">
+  <fieldset class="field">
+    <legend>What would you like to hire? <span class="req">*</span></legend>
+    <div class="choice-grid">
+      <label class="choice"><input type="radio" name="hire_package" value="Roof box + roof bars" required checked /><span>Box + bars<small>Complete set-up</small></span></label>
+      <label class="choice"><input type="radio" name="hire_package" value="Roof box only" /><span>Roof box only<small>I already have bars</small></span></label>
+      <label class="choice"><input type="radio" name="hire_package" value="Roof bars only" /><span>Roof bars only<small>For bikes, kayaks etc.</small></span></label>
+      <label class="choice"><input type="radio" name="hire_package" value="Not sure" /><span>Not sure<small>Advise me</small></span></label>
+    </div>
+  </fieldset>
+  <div class="form-row form-row-3">
+    <div class="field">
+      <label for="hire-from">Collection date <span class="req">*</span></label>
+      <input class="input" id="hire-from" name="collection_date" type="date" required />
+    </div>
+    <div class="field">
+      <label for="hire-to">Return date <span class="req">*</span></label>
+      <input class="input" id="hire-to" name="return_date" type="date" required />
+    </div>
+    <div class="field">
+      <label for="hire-size">Box size</label>
+      <select class="select" id="hire-size" name="box_size">
+        <option>Not sure, advise me</option>
+        <option>Medium (approx. 400L)</option>
+        <option>Large (approx. 450–500L)</option>
+        <option>Extra large (approx. 600L)</option>
+      </select>
+    </div>
+  </div>
+  <VehicleFields prefix="hire" />
+  <ContactFields prefix="hire" />
+  <div class="field">
+    <label for="hire-msg">Anything else?</label>
+    <textarea class="textarea" id="hire-msg" name="message" placeholder="Where you're heading, what you're carrying, number of passengers…"></textarea>
+  </div>
+</FormShell>
+<script>
+  const from = document.querySelector<HTMLInputElement>('#hire-from');
+  const to = document.querySelector<HTMLInputElement>('#hire-to');
+  if (from && to) {
+    const today = new Date().toISOString().slice(0, 10);
+    from.min = today;
+    to.min = today;
+    from.addEventListener('change', () => { to.min = from.value || today; if (to.value && to.value < from.value) to.value = from.value; });
+  }
+</script>

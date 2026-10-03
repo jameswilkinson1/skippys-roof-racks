@@ -1,0 +1,26 @@
+---
+import { ctas, type CtaType } from '../../data/ctas';
+import Icon from '../ui/Icon.astro';
+interface Props { type: CtaType }
+const c = ctas[Astro.props.type] ?? ctas.hire;
+const ext = (e?: boolean) => (e ? { target: '_blank', rel: 'noopener' } : {});
+---
+<aside class="cta-box not-prose">
+  <span class="cta-box-icon"><Icon name={c.icon} size={26} /></span>
+  <div>
+    <p class="cta-box-title">{c.title}</p>
+    <p class="cta-box-text">{c.text}</p>
+    <div class="btn-row">
+      <a href={c.primary.href} class="btn btn-primary" {...ext(c.primary.external)}>{c.primary.label} <Icon name={c.primary.external ? 'ArrowUpRight' : 'ArrowRight'} /></a>
+      <a href={c.secondary.href} class="btn btn-outline" {...ext(c.secondary.external)}>{c.secondary.label}</a>
+    </div>
+  </div>
+</aside>
+<style>
+  .cta-box { display: grid; grid-template-columns: auto 1fr; gap: 18px; padding: clamp(20px, 3vw, 28px); margin-block: 2em; background: var(--white); border: 2px solid var(--ink); border-radius: var(--radius-lg); box-shadow: 6px 6px 0 var(--accent); }
+  .cta-box-icon { display: grid; place-items: center; width: 52px; height: 52px; border-radius: 14px; background: var(--accent); }
+  .cta-box-title { font-weight: 850; font-stretch: 110%; font-size: 1.25rem; line-height: 1.2; margin: 0 0 6px !important; }
+  .cta-box-text { color: var(--muted); margin: 0 0 16px !important; font-size: 1rem; line-height: 1.55; }
+  .cta-box a { text-decoration: none !important; background: var(--btn-bg) !important; font-weight: 750 !important; }
+  @media (max-width: 560px) { .cta-box { grid-template-columns: 1fr; } }
+</style>

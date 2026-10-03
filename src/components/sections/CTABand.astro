@@ -1,0 +1,34 @@
+---
+import { site } from '../../data/site';
+import Icon from '../ui/Icon.astro';
+interface Props { title?: string; text?: string; primaryLabel?: string; primaryHref?: string; secondaryLabel?: string; secondaryHref?: string; icon?: string }
+const {
+  title = 'Not sure what you need?',
+  text = 'Tell us your car and what you want to carry. We’ll recommend the right Thule set-up, whether that’s hire, new or used.',
+  primaryLabel = 'Ask us about your car', primaryHref = '/which-roof-bars-fit-my-car/',
+  secondaryLabel = `Call ${site.phone}`, secondaryHref = site.phoneHref, icon = 'CarFront',
+} = Astro.props;
+---
+<section class="section-sm">
+  <div class="container">
+    <div class="cta-band on-dark">
+      <span class="cta-icon"><Icon name={icon} size={30} /></span>
+      <div class="cta-copy">
+        <h2>{title}</h2>
+        <p>{text}</p>
+      </div>
+      <div class="btn-row">
+        <a href={primaryHref} class="btn btn-primary btn-lg">{primaryLabel} <Icon name="ArrowRight" /></a>
+        <a href={secondaryHref} class="btn btn-ghost-light btn-lg">{secondaryHref.startsWith('tel') && <Icon name="Phone" />}{secondaryLabel}</a>
+      </div>
+    </div>
+  </div>
+</section>
+<style>
+  .cta-band { display: grid; gap: 20px; align-items: center; padding: clamp(26px, 4vw, 48px); border-radius: var(--radius-lg); background: var(--ink); color: var(--white); position: relative; overflow: hidden; }
+  .cta-band::after { content: ''; position: absolute; right: -60px; top: -60px; width: 220px; height: 220px; border-radius: 50%; background: var(--accent); opacity: 0.12; }
+  .cta-icon { display: grid; place-items: center; width: 60px; height: 60px; border-radius: 16px; background: var(--accent); color: var(--ink); }
+  .cta-copy h2 { font-size: clamp(1.5rem, 3vw, 2.1rem); margin-bottom: 0.25em; }
+  .cta-copy p { margin: 0; color: rgb(255 255 255 / 0.78); max-width: 620px; }
+  @media (min-width: 1000px) { .cta-band { grid-template-columns: auto 1fr auto; gap: 32px; } }
+</style>

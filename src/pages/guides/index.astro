@@ -1,0 +1,68 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/sections/Breadcrumbs.astro';
+import GuideCard from '../../components/sections/GuideCard.astro';
+import CTABand from '../../components/sections/CTABand.astro';
+import { categoryLabels, type GuideCategory } from '../../data/guides';
+
+const guides = (await getCollection('guides', ({ data }) => !data.draft)).sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf() || a.data.title.localeCompare(b.data.title),
+);
+const order: GuideCategory[] = ['roof-boxes', 'roof-bars', 'bike-carriers', 'repairs-parts'];
+const groups = order.map((c) => ({ id: c, label: categoryLabels[c], items: guides.filter((g) => g.data.category === c) })).filter((g) => g.items.length);
+const crumbs = [{ name: 'Guides', href: '/guides/' }];
+const intros: Record<GuideCategory, string> = {
+  'roof-boxes': 'Sizes, what fits, fitting, packing and the rules of the road.',
+  'roof-bars': 'How Thule roof systems work and how to find the right fit.',
+  'bike-carriers': 'Choosing the right Thule bike carrier for your car and bikes.',
+  'repairs-parts': 'Common faults, spare parts, keys and locks.',
+};
+const itemList = {
+  '@context': 'https://schema.org',
+  '@type': 'ItemList',
+  itemListElement: guides.map((g, i) => ({ '@type': 'ListItem', position: i + 1, url: `https://www.skippysroofracks.co.uk/guides/${g.id}/`, name: g.data.title })),
+};
+---
+<BaseLayout
+  title="Roof Box, Roof Bar & Bike Rack Guides | Thule Advice"
+  description="Practical advice from the Thule specialists: what size roof box you need, what fits in a roof box, choosing roof bars, bike carriers, repairs and replacement keys."
+  crumbs={crumbs}
+  schema={[itemList]}
+>
+  <section class="guides-hero">
+    <div class="container">
+      <Breadcrumbs crumbs={crumbs} />
+      <p class="eyebrow">Advice from the workshop</p>
+      <h1>Roof box, roof bar &amp; bike rack guides</h1>
+      <p class="lead">Straight answers to the questions we're asked every day, from the only official Thule Service Centre in the UK.</p>
+      <nav class="cat-nav" aria-label="Guide categories">
+        {groups.map((g) => <a href={`#${g.id}`} class="pill">{g.label} <span>{g.items.length}</span></a>)}
+      </nav>
+    </div>
+  </section>
+
+  {groups.map((g, i) => (
+    <section class:list={['section', i % 2 ? 'bg-white' : '']} id={g.id}>
+      <div class="container">
+        <div class="section-head">
+          <h2>{g.label}</h2>
+          <p>{intros[g.id]}</p>
+        </div>
+        <div class="grid grid-3">
+          {g.items.map((guide) => <GuideCard guide={guide} />)}
+        </div>
+      </div>
+    </section>
+  ))}
+
+  <CTABand />
+</BaseLayout>
+<style>
+  .guides-hero { padding-block: clamp(24px, 4vw, 48px) clamp(24px, 3vw, 40px); background: var(--white); border-bottom: 1px solid var(--line); }
+  .guides-hero .lead { max-width: 680px; }
+  .cat-nav { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 24px; }
+  .cat-nav a { text-decoration: none; padding: 10px 16px; font-size: 0.92rem; }
+  .cat-nav a:hover { background: var(--accent); }
+  .cat-nav span { display: inline-grid; place-items: center; min-width: 22px; height: 22px; border-radius: 999px; background: var(--white); font-size: 0.75rem; }
+</style>

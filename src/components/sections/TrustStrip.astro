@@ -1,0 +1,44 @@
+---
+import { site } from '../../data/site';
+import { getGoogleSummary } from '../../lib/google-reviews';
+import Icon from '../ui/Icon.astro';
+import GoogleG from '../ui/GoogleG.astro';
+import Stars from '../ui/Stars.astro';
+interface Props { dark?: boolean }
+const { dark = false } = Astro.props;
+const google = await getGoogleSummary();
+---
+<div class:list={['trust', { dark }]}>
+  <div class="container trust-grid">
+    <a class="trust-item" href={site.google.reviewsUrl} target="_blank" rel="noopener">
+      <span class="trust-icon g"><GoogleG size={26} /></span>
+      <span><strong><Stars rating={google.rating} size={14} label={false} /> {google.rating.toFixed(1)} on Google</strong><small>{google.reviewCount}+ five-star reviews</small></span>
+    </a>
+    <a class="trust-item" href={site.ebay.feedbackUrl} target="_blank" rel="noopener">
+      <span class="trust-icon"><Icon name="ShoppingBag" /></span>
+      <span><strong>{site.ebay.positive} positive on eBay</strong><small>{site.ebay.feedbackCount} feedback ratings</small></span>
+    </a>
+    <a class="trust-item" href="/thule-repairs/">
+      <span class="trust-icon"><Icon name="BadgeCheck" /></span>
+      <span><strong>Official Thule Service Centre</strong><small>The only one in the UK</small></span>
+    </a>
+    <a class="trust-item" href="/fitting/">
+      <span class="trust-icon"><Icon name="Wrench" /></span>
+      <span><strong>Free fitting with purchase</strong><small>Family-run since {site.since}</small></span>
+    </a>
+  </div>
+</div>
+<style>
+  .trust { background: var(--white); border-block: 1px solid var(--line); }
+  .trust-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); }
+  .trust-item { display: flex; gap: 14px; align-items: center; padding: 20px 8px; text-decoration: none; }
+  .trust-item:hover strong { text-decoration: underline; }
+  .trust-item strong { display: flex; align-items: center; gap: 6px; font-weight: 800; font-stretch: 106%; line-height: 1.25; flex-wrap: wrap; }
+  .trust-item small { display: block; color: var(--muted); font-size: 0.88rem; }
+  .trust-icon { display: grid; place-items: center; width: 48px; height: 48px; border-radius: 12px; background: var(--paper-2); flex: none; }
+  .trust-icon :global(svg) { width: 24px; height: 24px; }
+  .trust.dark { background: var(--ink); color: var(--white); border-color: var(--ink); }
+  .trust.dark small { color: rgb(255 255 255 / 0.65); }
+  .trust.dark .trust-icon { background: rgb(255 255 255 / 0.1); }
+  @media (min-width: 1000px) { .trust-item + .trust-item { border-left: 1px solid var(--line); padding-left: 24px; } }
+</style>

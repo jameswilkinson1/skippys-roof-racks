@@ -1,0 +1,184 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHero from '../../components/sections/PageHero.astro';
+import TrustStrip from '../../components/sections/TrustStrip.astro';
+import Steps from '../../components/sections/Steps.astro';
+import Reviews from '../../components/sections/Reviews.astro';
+import FAQ from '../../components/sections/FAQ.astro';
+import RelatedGuides from '../../components/sections/RelatedGuides.astro';
+import MapHours from '../../components/sections/MapHours.astro';
+import HireForm from '../../components/forms/HireForm.astro';
+import Icon from '../../components/ui/Icon.astro';
+import { site, hire } from '../../data/site';
+import { ebayUrl } from '../../lib/ebay';
+import heroImg from '../../assets/images/site/yard-range-rover-roof-box.jpg';
+
+const crumbs = [{ name: 'Roof box hire', href: '/roof-box-hire/' }];
+
+const faqs = [
+  { q: 'How much does roof box hire cost?', a: `Prices depend on the package and how long you need it. See the <a href="#prices">hire prices</a> above${hire.pricesConfirmed ? '' : ' (guide prices)'}. We'll confirm your exact price when you send your dates.` },
+  { q: 'Do I need roof bars to hire a roof box?', a: 'Yes. A roof box always mounts onto roof bars. If your car doesn’t have any, hire our box + bars package and we’ll supply genuine Thule bars with the correct fitting kit for your car.' },
+  { q: 'Will a roof box fit my car?', a: 'Almost every car can take a roof box with the right bars and fitting kit. Tell us your make, model, year and roof type when you enquire and we’ll check the fit and recommend a size that clears your tailgate.' },
+  { q: 'Do you fit the roof box for me?', a: 'Yes. We fit the bars and box at our Tuddenham workshop and show you how to open it from either side, lock it and load it safely. When you bring it back, we take it off for you.' },
+  { q: 'What size roof box do I need?', a: 'For most families a large box of around 450–500 litres is the sweet spot. Smaller cars suit a medium box, and big SUVs, MPVs or ski trips suit an extra-large one. Read our guide: <a href="/guides/what-size-roof-box-do-i-need/">what size roof box do I need?</a>' },
+  { q: 'How far in advance should I book?', a: 'As early as you can for school holidays, half-terms and Christmas, as boxes go quickly. For other dates a week or two’s notice is usually fine, but call us for last-minute hires and we’ll do our best.' },
+  { q: 'Is there a deposit?', a: `Yes: ${hire.deposit}, returned when the kit comes back in the same condition.` },
+  { q: 'Can I extend my hire?', a: 'Usually, yes. Just call us before your return date and we’ll check the box isn’t booked by someone else.' },
+  { q: 'I like it. Can I buy one instead?', a: `Of course. We sell new and used Thule roof boxes through our eBay shop, often at a big saving on new. <a href="${ebayUrl('roof box', 'used')}" target="_blank" rel="noopener">Browse used roof boxes</a> or read <a href="/guides/hire-or-buy-a-roof-box/">hire or buy?</a>` },
+];
+
+const steps = [
+  { title: 'Send your dates', text: 'Fill in the form below or call us with your dates, car make and model, and roughly what you’re carrying.' },
+  { title: 'We confirm & prepare', text: 'We check availability, pick the right box size and the correct bars and fitting kit for your car, then confirm your price.' },
+  { title: 'Collect & we fit it', text: 'Pop over to our Tuddenham workshop. We fit everything and show you how to open, lock, load and remove it.' },
+  { title: 'Bring it back', text: 'Return it after your trip and we’ll take it off the car. No storing a giant box in your garage all year.' },
+];
+
+const hireSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  name: 'Roof box and roof bar hire',
+  serviceType: 'Roof box hire',
+  provider: { '@id': `${site.url}/#business` },
+  areaServed: ['Ipswich', 'Suffolk', 'Woodbridge', 'Felixstowe', 'Stowmarket', 'Colchester'],
+  description: 'Hire a genuine Thule roof box and roof bars, fitted to your car at our Tuddenham workshop near Ipswich.',
+};
+---
+
+<BaseLayout
+  title="Roof Box Hire Ipswich & Suffolk | Thule Roof Box & Bars, Fitted"
+  description="Hire a genuine Thule roof box and roof bars in Ipswich, Suffolk. Fitted to your car at our Tuddenham workshop with a full demo. Check dates and prices online."
+  image={heroImg}
+  crumbs={crumbs}
+  schema={[hireSchema]}
+>
+  <PageHero
+    eyebrow="Roof box hire · Ipswich & Suffolk"
+    title="Roof box hire in Ipswich &amp; Suffolk"
+    lead="More room for the holiday, without buying a roof box you'll only use once or twice a year. Hire a genuine Thule box and bars, fitted to your car by the Thule specialists."
+    points={[
+      'Genuine Thule roof boxes and roof bars',
+      'Fitted at our workshop, with a demo before you go',
+      'The right size for your car, your family and your luggage',
+    ]}
+    image={heroImg}
+    imageAlt="Grey Range Rover Sport with a black roof box, ready to go at Skippy's yard"
+    crumbs={crumbs}
+  >
+    <Fragment slot="actions">
+      <a href="#book" class="btn btn-primary btn-lg"><Icon name="CalendarCheck" /> Check availability</a>
+      <a href={site.phoneHref} class="btn btn-outline btn-lg"><Icon name="Phone" /> {site.phone}</a>
+    </Fragment>
+  </PageHero>
+
+  <TrustStrip />
+
+  <!-- Prices -->
+  <section class="section" id="prices">
+    <div class="container">
+      <div class="section-head">
+        <p class="eyebrow">Hire prices</p>
+        <h2>Simple hire packages</h2>
+        <p>Every package includes fitting at our workshop and a quick demo. {hire.pricesConfirmed ? '' : 'These are guide prices. We’ll confirm your exact price when you send your dates.'}</p>
+      </div>
+      <div class="grid grid-3 packages">
+        {hire.packages.map((p) => (
+          <article class:list={['card package', { popular: p.popular }]}>
+            {p.popular && <span class="pill pill-accent popular-tag"><Icon name="Star" size={14} /> Most popular</span>}
+            <h3>{p.name}</h3>
+            <p class="muted">{p.blurb}</p>
+            <table class="price-table">
+              <tbody>
+                {p.prices.map((r) => <tr><th scope="row">{r.period}</th><td>{r.price}</td></tr>)}
+              </tbody>
+            </table>
+            <a href="#book" class:list={['btn btn-block', p.popular ? 'btn-primary' : 'btn-outline']} data-package={p.name}>Enquire about this</a>
+          </article>
+        ))}
+      </div>
+      <p class="terms-line"><Icon name="Info" size={16} /> {hire.deposit}. Minimum hire {hire.minimumHire}. <a href="/roof-box-hire/terms/">Hire terms</a>.</p>
+    </div>
+  </section>
+
+  <!-- Sizes -->
+  <section class="section bg-white">
+    <div class="container split split-top split-wide-right">
+      <div>
+        <p class="eyebrow">Choosing a size</p>
+        <h2>Which roof box size do you need?</h2>
+        <p class="lead">Not sure? Tell us your car and how many of you are travelling and we'll recommend the right size, one that won't clash with your tailgate.</p>
+        <p>Read our guides: <a href="/guides/what-size-roof-box-do-i-need/">what size roof box do I need?</a> and <a href="/guides/what-fits-in-a-roof-box/">what fits in a roof box?</a></p>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Size</th><th>Capacity</th><th>Typically fits</th><th>Best for</th></tr></thead>
+          <tbody>
+            {hire.fleet.map((f) => <tr><td><strong>{f.size}</strong></td><td>{f.litres}</td><td>{f.fits}</td><td>{f.bestFor}</td></tr>)}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <Steps steps={steps} title="How roof box hire works" eyebrow="Four easy steps" />
+
+  <!-- Booking -->
+  <section class="section bg-white" id="book">
+    <div class="container split split-top split-wide-left">
+      <div class="card form-card">
+        <h2>Check availability</h2>
+        <p class="muted">Send us your dates and car details. We'll come back to you to confirm availability and price.</p>
+        <HireForm />
+      </div>
+      <aside class="book-aside">
+        <div class="card">
+          <h3>Prefer to talk?</h3>
+          <p>Call us on <a href={site.phoneHref}><strong>{site.phone}</strong></a>. We're open Mon–Fri 8:30–4 and Sat 9–12.</p>
+          <a href={site.phoneHref} class="btn btn-dark btn-block"><Icon name="Phone" /> Call now</a>
+        </div>
+        <div class="card">
+          <h3>Need it this week?</h3>
+          <p>Last-minute trip? Give us a ring. We've got plenty of customers away on holiday at a day's notice.</p>
+        </div>
+        <div class="card">
+          <h3>Already got bars?</h3>
+          <p>Hire just the box and we'll fit it to your bars. Not sure your bars are compatible? <a href="/which-roof-bars-fit-my-car/">Ask us</a>.</p>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <Reviews tags={['hire', 'box', 'rescue']} title="Families heading off with a smile" background="paper" />
+  <FAQ faqs={faqs} title="Roof box hire FAQs" />
+  <RelatedGuides slugs={['what-size-roof-box-do-i-need', 'what-fits-in-a-roof-box', 'hire-or-buy-a-roof-box', 'how-many-suitcases-fit-in-a-roof-box', 'how-to-pack-a-roof-box']} title="Before your trip" />
+  <MapHours title="Collect from our Tuddenham workshop" />
+</BaseLayout>
+
+<script>
+  // Pre-select the package when a pricing card button is clicked
+  document.querySelectorAll<HTMLAnchorElement>('[data-package]').forEach((a) => {
+    a.addEventListener('click', () => {
+      const map: Record<string, string> = { 'Roof box + roof bars': 'Roof box + roof bars', 'Roof box only': 'Roof box only', 'Roof bars only': 'Roof bars only' };
+      const val = map[a.dataset.package ?? ''];
+      const input = document.querySelector<HTMLInputElement>(`input[name="hire_package"][value="${val}"]`);
+      if (input) input.checked = true;
+    });
+  });
+</script>
+
+<style>
+  .packages { align-items: stretch; }
+  .package { position: relative; display: flex; flex-direction: column; }
+  .package.popular { border: 2px solid var(--ink); box-shadow: 6px 6px 0 var(--accent); }
+  .popular-tag { position: absolute; top: -14px; left: 24px; }
+  .price-table { margin: 8px 0 22px; font-size: 1rem; }
+  .price-table th, .price-table td { padding: 10px 0; background: none; border-bottom: 1px dashed var(--line); }
+  .price-table th { font-weight: 600; color: var(--muted); }
+  .price-table td { text-align: right; font-weight: 850; font-stretch: 110%; font-size: 1.15rem; }
+  .package .btn { margin-top: auto; }
+  .terms-line { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-top: 22px; color: var(--muted); font-size: 0.92rem; }
+  .form-card h2 { font-size: clamp(1.6rem, 3vw, 2.2rem); }
+  .book-aside { display: grid; gap: 16px; }
+  .book-aside h3 { font-size: 1.15rem; }
+  @media (min-width: 900px) { .book-aside { position: sticky; top: calc(var(--header-h) + 24px); } }
+</style>

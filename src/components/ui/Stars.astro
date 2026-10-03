@@ -1,0 +1,10 @@
+---
+interface Props { rating?: number; size?: number; label?: boolean }
+const { rating = 5, size = 18, label = true } = Astro.props;
+const full = Math.round(rating);
+---
+<span class="stars" role={label ? 'img' : undefined} aria-label={label ? `${rating.toFixed(1)} out of 5 stars` : undefined} aria-hidden={label ? undefined : 'true'}>
+  {Array.from({ length: 5 }).map((_, i) => (
+    <svg viewBox="0 0 24 24" width={size} height={size} style={i < full ? '' : 'opacity:.25'} aria-hidden="true"><path d="M12 2.5l2.95 6.1 6.65.9-4.85 4.62 1.2 6.6L12 17.6l-5.95 3.12 1.2-6.6L2.4 9.5l6.65-.9L12 2.5z"/></svg>
+  ))}
+</span>

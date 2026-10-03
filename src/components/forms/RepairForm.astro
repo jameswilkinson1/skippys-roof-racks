@@ -1,0 +1,33 @@
+---
+import FormShell from './FormShell.astro';
+import ContactFields from './ContactFields.astro';
+---
+<FormShell id="repair-form" subject="Thule repair enquiry from website" submitLabel="Send repair enquiry" note="We'll reply with next steps, and you can send photos by replying to our email.">
+  <div class="form-row form-row-2">
+    <div class="field">
+      <label for="rep-type">What needs repairing? <span class="req">*</span></label>
+      <select class="select" id="rep-type" name="product_type" required>
+        <option value="">Select</option>
+        <option>Towbar bike carrier</option><option>Roof bike carrier</option><option>Boot / rear bike carrier</option>
+        <option>Roof box</option><option>Roof bars / feet</option><option>Lock or key</option><option>Child seat / stroller / other Thule</option>
+      </select>
+    </div>
+    <div class="field">
+      <label for="rep-model">Model (if you know it)</label>
+      <input class="input" id="rep-model" name="product_model" placeholder="e.g. EasyFold XT 2, Motion XT XL" />
+    </div>
+  </div>
+  <div class="field">
+    <label for="rep-issue">What's the problem? <span class="req">*</span></label>
+    <textarea class="textarea" id="rep-issue" name="problem" required placeholder="e.g. The tilt pedal snapped, or the lock won't turn. Part numbers help if you have them."></textarea>
+  </div>
+  <fieldset class="field">
+    <legend>How would you like to get it to us?</legend>
+    <div class="choice-grid">
+      <label class="choice"><input type="radio" name="drop_off" value="Bring it to Tuddenham" checked /><span>Bring it in<small>Tuddenham, Ipswich</small></span></label>
+      <label class="choice"><input type="radio" name="drop_off" value="Post / courier it" /><span>Post it to us<small>Repair & return</small></span></label>
+      <label class="choice"><input type="radio" name="drop_off" value="Just need the part" /><span>Just the part<small>I'll fit it myself</small></span></label>
+    </div>
+  </fieldset>
+  <ContactFields prefix="rep" />
+</FormShell>

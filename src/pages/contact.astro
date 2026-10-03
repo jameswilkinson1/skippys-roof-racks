@@ -1,0 +1,70 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumbs from '../components/sections/Breadcrumbs.astro';
+import MapHours from '../components/sections/MapHours.astro';
+import ContactForm from '../components/forms/ContactForm.astro';
+import Icon from '../components/ui/Icon.astro';
+import { site } from '../data/site';
+import { ebayUrl } from '../lib/ebay';
+
+const crumbs = [{ name: 'Contact', href: '/contact/' }];
+const quick = [
+  { icon: 'CalendarCheck', title: 'Roof box hire', text: 'Check dates and availability', href: '/roof-box-hire/#book' },
+  { icon: 'CarFront', title: 'What fits my car?', text: 'Free Thule fit check', href: '/which-roof-bars-fit-my-car/' },
+  { icon: 'Wrench', title: 'Book a repair', text: 'Workshop or by post', href: '/thule-repairs/#repair-form' },
+  { icon: 'ShoppingBag', title: 'An eBay order', text: 'Message us through eBay', href: ebayUrl(), external: true },
+];
+---
+<BaseLayout
+  title="Contact Us | Skippy's Roof Racks, Tuddenham, Ipswich"
+  description="Call 01473 785810, email info@skippysroofracks.co.uk or visit us at Units 3 & 4 Tuddenham Hall, Grundisburgh Road, Tuddenham, Ipswich IP6 9DD."
+  crumbs={crumbs}
+>
+  <section class="contact-hero">
+    <div class="container">
+      <Breadcrumbs crumbs={crumbs} />
+      <div class="contact-grid">
+        <div>
+          <p class="eyebrow">Get in touch</p>
+          <h1>Talk to the Thule specialists</h1>
+          <p class="lead">Call, email or send us a message. The quickest way to get the right answer is to tell us your car's make, model and year.</p>
+          <ul class="contact-list">
+            <li><a href={site.phoneHref}><span class="ci"><Icon name="Phone" /></span><span><small>Call us</small><strong>{site.phone}</strong></span></a></li>
+            <li><a href={`mailto:${site.email}`}><span class="ci"><Icon name="Mail" /></span><span><small>Email</small><strong>{site.email}</strong></span></a></li>
+            <li><a href="#visit"><span class="ci"><Icon name="MapPin" /></span><span><small>Visit</small><strong>{site.address.line1}, {site.address.locality}, {site.address.postcode}</strong></span></a></li>
+            {site.whatsapp && <li><a href={`https://wa.me/${site.whatsapp}`} target="_blank" rel="noopener"><span class="ci"><Icon name="MessageCircle" /></span><span><small>WhatsApp</small><strong>Message us</strong></span></a></li>}
+          </ul>
+          <div class="quick-grid">
+            {quick.map((q) => (
+              <a href={q.href} class="quick" {...(q.external ? { target: '_blank', rel: 'noopener' } : {})}>
+                <Icon name={q.icon} size={22} /><span><strong>{q.title}</strong><small>{q.text}</small></span>
+              </a>
+            ))}
+          </div>
+        </div>
+        <div class="card">
+          <h2>Send us a message</h2>
+          <ContactForm />
+        </div>
+      </div>
+    </div>
+  </section>
+  <MapHours />
+</BaseLayout>
+<style>
+  .contact-hero { padding-block: clamp(24px, 4vw, 48px) clamp(48px, 6vw, 80px); background: linear-gradient(180deg, var(--white), var(--paper)); }
+  .contact-grid { display: grid; gap: clamp(28px, 4vw, 56px); align-items: start; }
+  @media (min-width: 1000px) { .contact-grid { grid-template-columns: 0.9fr 1.1fr; } }
+  .contact-grid h2 { font-size: clamp(1.5rem, 2.6vw, 2rem); }
+  .contact-list { list-style: none; padding: 0; margin: 24px 0; display: grid; gap: 12px; }
+  .contact-list a { display: flex; align-items: center; gap: 14px; text-decoration: none; }
+  .contact-list a:hover strong { text-decoration: underline; }
+  .ci { display: grid; place-items: center; width: 48px; height: 48px; border-radius: 12px; background: var(--accent); flex: none; }
+  .contact-list small { display: block; color: var(--muted); font-size: 0.8rem; font-weight: 650; text-transform: uppercase; letter-spacing: 0.08em; }
+  .contact-list strong { font-size: 1.08rem; overflow-wrap: anywhere; }
+  .quick-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; }
+  .quick { display: flex; gap: 12px; align-items: center; padding: 14px 16px; background: var(--white); border: 1px solid var(--line); border-radius: var(--radius-sm); text-decoration: none; }
+  .quick:hover { border-color: var(--ink); }
+  .quick span { display: flex; flex-direction: column; line-height: 1.25; }
+  .quick small { color: var(--muted); }
+</style>

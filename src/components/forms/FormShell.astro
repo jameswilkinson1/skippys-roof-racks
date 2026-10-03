@@ -1,0 +1,89 @@
+---
+/**
+ * Shared form wrapper. Sends to Web3Forms (free, no server needed) using the
+ * access key in src/data/site.ts. Until that key is set, submissions open a
+ * pre-filled email to info@ instead, so enquiries are never lost.
+ */
+import { site } from '../../data/site';
+import Icon from '../ui/Icon.astro';
+interface Props { id: string; subject: string; submitLabel?: string; note?: string }
+const { id, subject, submitLabel = 'Send enquiry', note } = Astro.props;
+const configured = !site.forms.accessKey.startsWith('YOUR_');
+---
+<form
+  id={id}
+  class="form"
+  action={site.forms.endpoint}
+  method="POST"
+  data-enquiry-form
+  data-configured={String(configured)}
+  data-email={site.email}
+  data-subject={subject}
+>
+  <input type="hidden" name="access_key" value={site.forms.accessKey} />
+  <input type="hidden" name="subject" value={subject} />
+  <input type="hidden" name="from_name" value={`${site.name} website`} />
+  <input type="hidden" name="redirect" value={`${site.url}/thanks/`} />
+  <input type="checkbox" name="botcheck" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true" />
+
+  <slot />
+
+  <div class="form-submit">
+    <button type="submit" class="btn btn-primary btn-lg"><Icon name="Send" /> {submitLabel}</button>
+    <p class="form-note">{note ?? `We're quick to reply, often the same day. Prefer to talk? Call ${site.phone}.`} We only use your details to answer your enquiry. See our <a href="/privacy/">privacy notice</a>.</p>
+  </div>
+  <p class="form-status" role="status" aria-live="polite" hidden></p>
+</form>
+
+<script>
+  document.querySelectorAll<HTMLFormElement>('[data-enquiry-form]').forEach((form) => {
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      if (!form.reportValidity()) return;
+      const status = form.querySelector<HTMLElement>('.form-status')!;
+      const button = form.querySelector<HTMLButtonElement>('button[type=submit]')!;
+      const data = new FormData(form);
+      if (data.get('botcheck')) return;
+
+      // Not connected to Web3Forms yet → open a pre-filled email instead
+      if (form.dataset.configured !== 'true') {
+        const skip = ['access_key', 'subject', 'from_name', 'redirect', 'botcheck'];
+        const lines: string[] = [];
+        for (const [k, v] of data.entries()) if (!skip.includes(k) && String(v).trim()) lines.push(`${k}: ${v}`);
+        const body = encodeURIComponent(lines.join('\n'));
+        window.location.href = `mailto:${form.dataset.email}?subject=${encodeURIComponent(form.dataset.subject ?? 'Website enquiry')}&body=${body}`;
+        status.hidden = false;
+        status.dataset.state = 'success';
+        status.textContent = 'Your email app should open with your enquiry filled in. Just press send.';
+        return;
+      }
+
+      button.disabled = true;
+      const original = button.innerHTML;
+      button.textContent = 'Sending…';
+      try {
+        const res = await fetch(form.action, { method: 'POST', headers: { Accept: 'application/json' }, body: data });
+        const json = await res.json();
+        if (!json.success) throw new Error(json.message);
+        status.hidden = false;
+        status.dataset.state = 'success';
+        status.textContent = 'Thanks, your enquiry has been sent. We’ll be in touch shortly.';
+        form.reset();
+        if (typeof (window as any).gtag === 'function') (window as any).gtag('event', 'generate_lead', { form_id: form.id });
+      } catch {
+        status.hidden = false;
+        status.dataset.state = 'error';
+        status.textContent = 'Sorry, something went wrong. Please call 01473 785810 or email info@skippysroofracks.co.uk.';
+      } finally {
+        button.disabled = false;
+        button.innerHTML = original;
+      }
+    });
+  });
+</script>
+
+<style>
+  .form-submit { display: grid; gap: 12px; margin-top: 4px; }
+  .form-submit .btn { justify-self: start; }
+  @media (max-width: 520px) { .form-submit .btn { justify-self: stretch; } }
+</style>

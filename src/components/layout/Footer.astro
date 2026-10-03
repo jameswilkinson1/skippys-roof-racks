@@ -1,0 +1,125 @@
+---
+import { site, fullAddress } from '../../data/site';
+import { getGoogleSummary } from '../../lib/google-reviews';
+import Logo from '../ui/Logo.astro';
+import Icon from '../ui/Icon.astro';
+import Stars from '../ui/Stars.astro';
+import { ebayUrl } from '../../lib/ebay';
+
+const google = await getGoogleSummary();
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer on-dark">
+  <div class="container">
+    <div class="footer-cta">
+      <div>
+        <h2>Off on a trip soon?</h2>
+        <p>Tell us your car and your dates. We'll sort the right Thule kit and fit it free.</p>
+      </div>
+      <div class="btn-row">
+        <a href="/roof-box-hire/#book" class="btn btn-primary btn-lg"><Icon name="CalendarCheck" /> Book roof box hire</a>
+        <a href={site.phoneHref} class="btn btn-ghost-light btn-lg"><Icon name="Phone" /> {site.phone}</a>
+      </div>
+    </div>
+
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="/" class="footer-logo" aria-label={`${site.name}, home`}><Logo /></a>
+        <p>Family-run Thule specialists in Tuddenham, Ipswich since {site.since}. Hire, new and used Thule, free fitting and expert repairs.</p>
+        <p class="footer-claim"><Icon name="BadgeCheck" size={18} /> {site.thule.claim}</p>
+        <a class="footer-rating" href={site.google.reviewsUrl} target="_blank" rel="noopener">
+          <Stars rating={google.rating} size={16} label={false} />
+          <span>{google.rating.toFixed(1)} from {google.reviewCount}+ Google reviews</span>
+        </a>
+      </div>
+
+      <div>
+        <h3>Services</h3>
+        <ul>
+          <li><a href="/roof-box-hire/">Roof box hire</a></li>
+          <li><a href="/roof-bar-hire/">Roof bar hire</a></li>
+          <li><a href="/fitting/">Free fitting</a></li>
+          <li><a href="/thule-repairs/">Thule repairs</a></li>
+          <li><a href="/thule-spare-parts/">Spare parts & keys</a></li>
+          <li><a href="/which-roof-bars-fit-my-car/">Which bars fit my car?</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h3>Shop Thule</h3>
+        <ul>
+          <li><a href="/used-thule/">Used & ex-display</a></li>
+          <li><a href="/thule-roof-boxes/">Roof boxes</a></li>
+          <li><a href="/thule-roof-bars/">Roof bars & kits</a></li>
+          <li><a href="/thule-bike-carriers/">Bike carriers</a></li>
+          <li><a href="/more-thule/">Dog crates & more</a></li>
+          <li><a href={ebayUrl()} target="_blank" rel="noopener">Our eBay shop <Icon name="ArrowUpRight" size={14} /></a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h3>Visit us</h3>
+        <address>
+          <a href={site.google.mapsUrl} target="_blank" rel="noopener">{site.address.line1}<br />{site.address.line2}<br />{site.address.locality}, {site.address.town}<br />{site.address.postcode}</a>
+        </address>
+        <ul class="footer-hours">
+          {site.hours.map((h) => (
+            <li><span>{h.short}</span><span>{h.open ? `${h.open.replace(':00', '')}–${h.close!.replace(':00', '')}` : 'Closed'}</span></li>
+          ))}
+        </ul>
+        <p class="footer-contact">
+          <a href={site.phoneHref}><Icon name="Phone" size={16} /> {site.phone}</a><br />
+          <a href={`mailto:${site.email}`}><Icon name="Mail" size={16} /> {site.email}</a>
+        </p>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p>© {year} {site.legalName}. Registered in England & Wales no. {site.companyNumber}. VAT {site.vatNumber}. Registered office: {fullAddress}.</p>
+      <p class="footer-legal">
+        <a href="/guides/">Guides</a>
+        <a href="/reviews/">Reviews</a>
+        <a href="/about/">About</a>
+        <a href="/contact/">Contact</a>
+        <a href="/privacy/">Privacy</a>
+        <a href={site.social.facebook} target="_blank" rel="noopener">Facebook</a>
+      </p>
+      <p class="footer-note">Thule® is a registered trademark of Thule Group. Skippy's Roof Racks is an independent family business.</p>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .site-footer { background: var(--ink); color: rgb(255 255 255 / 0.78); padding-top: clamp(48px, 6vw, 80px); font-size: 0.97rem; }
+  .site-footer a { color: inherit; text-decoration: none; }
+  .site-footer a:hover { color: var(--white); text-decoration: underline; }
+  .footer-cta {
+    display: grid; gap: 24px; align-items: center; padding: clamp(24px, 4vw, 44px); border-radius: var(--radius-lg);
+    background: var(--accent); color: var(--accent-ink); margin-bottom: clamp(40px, 6vw, 72px);
+  }
+  .footer-cta h2 { margin-bottom: 0.25em; }
+  .footer-cta p { margin: 0; font-size: 1.1rem; }
+  .footer-cta .btn-ghost-light { --btn-fg: var(--ink); --btn-bd: var(--ink); }
+  .footer-cta .btn-ghost-light:hover { --btn-bg: var(--ink); --btn-fg: var(--white); }
+  .footer-cta a:hover { color: inherit; text-decoration: none; }
+  @media (min-width: 960px) { .footer-cta { grid-template-columns: 1fr auto; } }
+
+  .footer-grid { display: grid; gap: 36px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 190px), 1fr)); padding-bottom: 40px; }
+  @media (min-width: 1000px) { .footer-grid { grid-template-columns: 1.6fr 1fr 1fr 1.2fr; } }
+  .footer-logo { display: inline-block; color: var(--white); margin-bottom: 18px; }
+  .footer-logo :global(.logo-svg) { height: 54px; width: auto; }
+  .footer-brand p { max-width: 380px; }
+  .footer-claim { display: flex; gap: 8px; align-items: center; color: var(--accent); font-weight: 700; }
+  .footer-rating { display: inline-flex; align-items: center; gap: 10px; font-weight: 650; }
+  .site-footer h3 { color: var(--white); font-size: 1rem; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 14px; }
+  .site-footer ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 8px; }
+  .site-footer address { font-style: normal; margin-bottom: 14px; line-height: 1.5; }
+  .footer-hours { margin-bottom: 14px !important; gap: 4px !important; max-width: 220px; }
+  .footer-hours li { display: flex; justify-content: space-between; gap: 12px; }
+  .footer-contact a { display: inline-flex; align-items: center; gap: 8px; margin-bottom: 4px; }
+  .footer-bottom { border-top: 1px solid rgb(255 255 255 / 0.12); padding-block: 24px 32px; font-size: 0.84rem; color: rgb(255 255 255 / 0.55); }
+  .footer-bottom p { margin-bottom: 8px; }
+  .footer-legal { display: flex; flex-wrap: wrap; gap: 6px 18px; }
+  .footer-note { font-size: 0.78rem; }
+</style>

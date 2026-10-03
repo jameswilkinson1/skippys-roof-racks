@@ -1,0 +1,113 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/sections/PageHero.astro';
+import TrustStrip from '../components/sections/TrustStrip.astro';
+import Steps from '../components/sections/Steps.astro';
+import Reviews from '../components/sections/Reviews.astro';
+import FAQ from '../components/sections/FAQ.astro';
+import Gallery from '../components/sections/Gallery.astro';
+import MapHours from '../components/sections/MapHours.astro';
+import RelatedGuides from '../components/sections/RelatedGuides.astro';
+import Icon from '../components/ui/Icon.astro';
+import { site } from '../data/site';
+import heroImg from '../assets/images/site/yard-lexus-roof-box.jpg';
+import c1 from '../assets/images/customers/customer-01.jpg';
+import c3 from '../assets/images/customers/customer-03.jpg';
+import c13 from '../assets/images/customers/customer-13.jpg';
+import c18 from '../assets/images/customers/customer-18.jpg';
+import c25 from '../assets/images/customers/customer-25.jpg';
+import c28 from '../assets/images/customers/customer-28.jpg';
+import c33 from '../assets/images/customers/customer-33.jpg';
+import c35 from '../assets/images/customers/customer-35.jpg';
+
+const crumbs = [{ name: 'Free fitting', href: '/fitting/' }];
+const steps = [
+  { title: 'Choose your kit', text: 'Buy on eBay (choose collection) or directly from us. Not sure what fits? <a href="/which-roof-bars-fit-my-car/">Ask us first</a>.' },
+  { title: 'Book a time', text: `Call ${site.phone} to arrange a time, so we can have everything ready on the trestles when you arrive.` },
+  { title: 'We fit it', text: 'We fit the bars at the right spread and torque, mount the box or carrier, and check everything clears the tailgate.' },
+  { title: 'Your lesson', text: 'We show you how to lift, lock, load, open and remove it, so you’re confident doing it yourself next time.' },
+];
+const faqs = [
+  { q: 'Is fitting really free?', a: 'Yes. When you buy Thule kit from us, whether through eBay or directly, we fit it for free at our Tuddenham workshop.' },
+  { q: 'Can you fit kit I bought somewhere else?', a: 'Often, yes. Call us and tell us what you have. If something’s missing or wrong for your car, we can usually supply the right part.' },
+  { q: 'How long does fitting take?', a: 'Most roof bar and box fittings take well under an hour, often around 15–30 minutes. Bike carriers are similar.' },
+  { q: 'Do I need an appointment?', a: 'Please call ahead so we can have your kit ready and make sure someone is free to fit it, especially on Saturdays.' },
+  { q: 'Will you show me how to remove it?', a: 'Absolutely. Every fitting includes a proper walkthrough. Customers often tell us it’s the most useful part.' },
+];
+const gallery = [
+  { src: c3, alt: 'Blue Skoda SUV with a Thule roof box' },
+  { src: c18, alt: 'Dark Audi estate with a roof box at night' },
+  { src: c13, alt: 'E-bikes on a Thule towbar bike carrier' },
+  { src: c25, alt: 'Porsche Cayman with a roof-mounted bike carrier' },
+  { src: c1, alt: 'Grey hatchback with a Thule roof box' },
+  { src: c28, alt: 'Pick-up truck with a grey roof box' },
+  { src: c33, alt: 'Family car with a grey Thule roof box' },
+  { src: c35, alt: 'Audi SUV with roof bars and cargo bag' },
+];
+---
+<BaseLayout
+  title="Free Roof Bar & Roof Box Fitting | Tuddenham, Ipswich"
+  description="Buy Thule roof bars, roof boxes or bike carriers from Skippy's and we'll fit them free at our Tuddenham workshop near Ipswich, then show you exactly how to use them."
+  image={heroImg}
+  crumbs={crumbs}
+>
+  <PageHero
+    eyebrow="Free fitting with purchase"
+    title="We'll fit it for free, and show you how"
+    lead="Buy your Thule roof bars, roof box or bike carrier from us and we'll fit it to your car at our Tuddenham workshop at no extra cost. Then we'll show you how to use it properly."
+    points={['Free with any Thule purchase from us', 'Bars set at the correct spread and torque', 'A hands-on lesson before you drive away']}
+    image={heroImg}
+    imageAlt="Grey Lexus saloon with a black Thule roof box fitted at the Skippy's yard"
+    crumbs={crumbs}
+  >
+    <Fragment slot="actions">
+      <a href={site.phoneHref} class="btn btn-primary btn-lg"><Icon name="Phone" /> Book a fitting: {site.phone}</a>
+      <a href="/used-thule/" class="btn btn-outline btn-lg">Shop Thule kit</a>
+    </Fragment>
+  </PageHero>
+  <TrustStrip />
+  <Steps steps={steps} title="How fitting works" eyebrow="Four steps" />
+
+  <section class="section bg-white">
+    <div class="container split">
+      <div>
+        <p class="eyebrow">Why it matters</p>
+        <h2>Fitted right, first time</h2>
+        <p class="lead">Badly fitted bars are noisy, can mark your roof and, worst of all, aren't safe. We fit Thule kit every day and know the quirks of hundreds of cars.</p>
+        <ul class="checklist">
+          <li>Correct foot pack and fitting kit for your exact car</li>
+          <li>Bar spread and box position checked for tailgate clearance</li>
+          <li>Everything tightened to Thule's torque settings</li>
+          <li>Keys checked, locks matched and spare parts on hand</li>
+        </ul>
+      </div>
+      <figure class="card fit-quote">
+        <Icon name="Quote" size={36} />
+        <blockquote>Great service, I bought a roof box online and picked up today. They were very helpful, showing me how to fit it and making sure I was comfortable fitting it. Even showing me the best way to lift it onto the roof bars.</blockquote>
+        <figcaption>Jason Thomson, Google review</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-head">
+        <p class="eyebrow">Out on the road</p>
+        <h2>Customer cars, kitted out</h2>
+        <p>A few of the cars our customers have shared in their Google reviews.</p>
+      </div>
+      <Gallery images={gallery} caption="Photos shared by customers in their Google reviews." />
+    </div>
+  </section>
+
+  <Reviews tags={['fitting']} title="“Fitted in minutes, explained perfectly”" background="paper-2" />
+  <FAQ faqs={faqs} title="Fitting FAQs" />
+  <RelatedGuides slugs={['how-to-fit-a-thule-roof-box', 'roof-box-without-roof-rails', 'which-thule-roof-bars']} />
+  <MapHours />
+</BaseLayout>
+<style>
+  .fit-quote { margin: 0; padding: clamp(24px, 4vw, 40px); }
+  .fit-quote :global(svg) { color: var(--accent); margin-bottom: 10px; }
+  .fit-quote blockquote { margin: 0 0 12px; font-size: clamp(1.1rem, 2vw, 1.3rem); font-weight: 600; line-height: 1.5; }
+  .fit-quote figcaption { color: var(--muted); font-weight: 650; }
+</style>

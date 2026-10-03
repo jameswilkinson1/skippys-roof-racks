@@ -1,0 +1,72 @@
+---
+import CategoryLayout from '../layouts/CategoryLayout.astro';
+import Icon from '../components/ui/Icon.astro';
+import heroImg from '../assets/images/site/showroom-roof-box.jpg';
+import pulse from '../assets/images/products/thule-pulse-2-m.jpg';
+import force from '../assets/images/products/thule-force-3-xxl-sport.jpg';
+import touring from '../assets/images/products/thule-touring-700.jpg';
+import halfords from '../assets/images/products/halfords-advanced-470l-black-gloss-roof-box.jpg';
+import arcos from '../assets/images/products/thule-arcos-xl.jpg';
+
+const tiles = [
+  { title: 'Thule Motion', text: 'Motion 3 and Motion XT: Thule’s premium family boxes.', image: heroImg, alt: 'Black Thule roof box with mounting hardware', query: 'thule motion' },
+  { title: 'Thule Force', text: 'Force 3 and Force XT: sporty, popular and great value.', image: force, alt: 'Thule Force 3 XXL roof box on trestles outside', query: 'thule force' },
+  { title: 'Thule Pulse', text: 'Pulse 2: simple, sturdy and easy to use.', image: pulse, alt: 'Black Thule Pulse 2 roof box', query: 'thule pulse' },
+  { title: 'Touring, Dynamic & more', text: 'Older Thule models at even bigger savings.', image: touring, alt: 'Gloss black Thule Touring roof box', query: 'thule touring', conditions: ['any' as const] },
+  { title: 'Halfords & Exodus boxes', text: 'Made by Thule for Halfords, plus spares for them.', image: halfords, alt: 'Halfords Advanced 470L roof box made by Thule', query: 'halfords roof box', conditions: ['any' as const] },
+  { title: 'Towbar cargo boxes', text: 'Thule Arcos and other rear-mounted cargo carriers.', image: arcos, alt: 'Thule Arcos towbar cargo box', query: 'thule arcos', conditions: ['any' as const] },
+];
+
+const faqs = [
+  { q: 'What size roof box should I buy?', a: 'Around 400 litres suits couples and smaller cars, 450–500 litres suits most families, and 600 litres or more is for big families, MPVs and ski trips. Check the length clears your tailgate. Our guide explains more: <a href="/guides/what-size-roof-box-do-i-need/">what size roof box do I need?</a>' },
+  { q: 'Do you sell roof boxes with roof bars?', a: 'Yes. We can supply the right Thule bars and fitting kit for your car, new or used, and fit the whole lot for free when you collect.' },
+  { q: 'Can I collect a roof box instead of having it posted?', a: 'Yes. Roof boxes are big, so many customers collect from our Tuddenham workshop, and we fit it free while you’re here. Some larger boxes are collection only.' },
+  { q: 'Do you have spare parts for older roof boxes?', a: 'Very often, yes: locks, keys, hinges, mounting brackets, straps and more, including for discontinued Thule and Halfords boxes. See <a href="/thule-spare-parts/">spare parts & keys</a>.' },
+  { q: 'Would hiring be better?', a: 'If you only need a box for one or two trips, <a href="/roof-box-hire/">hiring</a> can make more sense. For regular use, a used box usually pays for itself quickly.' },
+];
+
+const lines = [
+  { name: 'Thule Motion 3', type: 'Current, premium', good: 'Families who want Thule’s easiest-to-use, most refined box' },
+  { name: 'Thule Force 3', type: 'Current, mid-range', good: 'Great all-rounder with sporty looks at a sensible price' },
+  { name: 'Thule Pulse 2', type: 'Current, entry', good: 'Occasional trips and buyers who want simple and reliable' },
+  { name: 'Motion XT / Force XT', type: 'Previous generation', good: 'Brilliant used buys: same quality, lower prices' },
+  { name: 'Vector, Dynamic, Touring', type: 'Design-led & older models', good: 'Premium, low-profile or budget-friendly options when in stock' },
+];
+---
+<CategoryLayout
+  seoTitle="Thule Roof Boxes: New & Used | Motion, Force, Pulse"
+  seoDescription="New and used Thule roof boxes from the Thule specialists: Motion 3, Force 3, Pulse 2, Motion XT and more. Free fitting with purchase at Tuddenham, Ipswich, or UK delivery."
+  crumbs={[{ name: 'Shop', href: '/used-thule/' }, { name: 'Thule roof boxes', href: '/thule-roof-boxes/' }]}
+  eyebrow="New & used Thule roof boxes"
+  title="Thule roof boxes, new &amp; used"
+  lead="From the latest Motion 3 and Force 3 to bargain used Motion XTs, we carry one of the widest ranges of Thule roof boxes around. Buy with confidence from the specialists, with free fitting when you collect."
+  points={['Current and previous-generation Thule boxes', 'Free fitting and a full demo when you collect', 'Spares, keys and locks for older boxes']}
+  image={heroImg}
+  imageAlt="Black Thule roof box with mounting hardware in the Skippy's showroom"
+  query="roof box"
+  tilesTitle="Shop roof boxes by range"
+  tilesIntro="Each button opens our live eBay listings, filtered to that range."
+  tiles={tiles}
+  faqs={faqs}
+  reviewTags={['box', 'used']}
+  reviewTitle="Roof box buyers love us"
+  guides={['thule-motion-vs-force-vs-pulse', 'what-size-roof-box-do-i-need', 'buying-a-used-thule-roof-box', 'how-to-fit-a-thule-roof-box']}
+  cta={{ title: 'Only need it for one trip?', text: 'Hire a Thule roof box and bars from our Tuddenham workshop instead, fitted to your car with a demo.', label: 'See roof box hire', href: '/roof-box-hire/', icon: 'CalendarCheck' }}
+>
+  <section class="section bg-white">
+    <div class="container split split-top">
+      <div>
+        <p class="eyebrow">Which range?</p>
+        <h2>Thule roof box ranges at a glance</h2>
+        <p class="lead">Every Thule box is well made. The differences are in features, looks and price. Here's the short version. Our <a href="/guides/thule-motion-vs-force-vs-pulse/">Motion vs Force vs Pulse guide</a> goes deeper.</p>
+        <a href="/which-roof-bars-fit-my-car/" class="btn btn-outline"><Icon name="CarFront" /> Ask what suits my car</a>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Range</th><th>Where it sits</th><th>Good for</th></tr></thead>
+          <tbody>{lines.map((l) => <tr><td><strong>{l.name}</strong></td><td>{l.type}</td><td>{l.good}</td></tr>)}</tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+</CategoryLayout>

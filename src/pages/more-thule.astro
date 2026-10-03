@@ -1,0 +1,43 @@
+---
+import CategoryLayout from '../layouts/CategoryLayout.astro';
+import heroImg from '../assets/images/site/violet-showroom.jpg';
+import allaxM from '../assets/images/products/thule-allax-m.jpg';
+import chariot from '../assets/images/products/thule-chariot-cross-2-single.jpg';
+import courier from '../assets/images/products/thule-courier.jpg';
+import spring from '../assets/images/products/thule-spring-city-pushchair.jpg';
+import yepp from '../assets/images/products/thule-yepp-nexxt-2-mini.jpg';
+import kayak from '../assets/images/products/thule-dockgrip-kayak-rack.jpg';
+
+const tiles = [
+  { title: 'Thule Allax dog crates', text: 'Crash-tested dog transport in several sizes. Violet approves.', image: allaxM, alt: 'Thule Allax dog crate with accessories', query: 'thule allax' },
+  { title: 'Chariot child trailers', text: 'Multisport trailers for cycling, jogging and strolling.', image: chariot, alt: 'Thule Chariot Cross child trailer', query: 'thule chariot', conditions: ['any' as const] },
+  { title: 'Courier & cargo trailers', text: 'Thule Courier trailers and conversion kits.', image: courier, alt: 'Green Thule Courier trailer', query: 'thule courier', conditions: ['any' as const] },
+  { title: 'Strollers & pushchairs', text: 'Thule Spring, Urban Glide and Sleek, plus spare parts.', image: spring, alt: 'Thule Spring city pushchair', query: 'thule stroller', conditions: ['any' as const] },
+  { title: 'Child bike seats', text: 'Thule Yepp front and rear-mounted seats.', image: yepp, alt: 'Thule Yepp Nexxt 2 Mini child bike seat', query: 'thule yepp', conditions: ['any' as const] },
+  { title: 'Kayak, SUP & ski carriers', text: 'Roof-mounted water and winter sports carriers.', image: kayak, alt: 'Thule DockGrip kayak carrier', query: 'thule kayak', conditions: ['any' as const] },
+];
+
+const faqs = [
+  { q: 'Do you sell Thule strollers and child trailers?', a: 'Yes. We regularly have new and used Thule Spring, Urban Glide, Sleek and Chariot models, plus spare wheels, handlebars and accessories.' },
+  { q: 'Which Allax crate fits my car?', a: 'It depends on your boot opening and your dog. Send us your car model and your dog’s size and we’ll recommend the right Allax size.' },
+  { q: 'Do you have spare parts for Thule strollers?', a: 'Often, yes: wheels, tyres, handlebars, brakes and more. <a href="/thule-spare-parts/">Ask us about spare parts</a>.' },
+];
+---
+<CategoryLayout
+  seoTitle="Thule Dog Crates, Child Trailers, Strollers & More | New & Used"
+  seoDescription="New and used Thule Allax dog crates, Chariot child trailers, Spring and Urban Glide strollers, Yepp child seats, and kayak and ski carriers from the Thule specialists in Ipswich."
+  crumbs={[{ name: 'Shop', href: '/used-thule/' }, { name: 'Dog crates, child seats & more', href: '/more-thule/' }]}
+  eyebrow="Beyond the roof"
+  title="Dog crates, child trailers, strollers &amp; more"
+  lead="Thule makes far more than roof boxes, and so do we. Find new and used Allax dog crates, Chariot trailers, Spring and Urban Glide strollers, Yepp child seats and water-sports carriers."
+  points={['Allax dog crates (tested by Violet)', 'Chariot, Courier, Spring, Urban Glide & Yepp', 'Spare parts for strollers and trailers']}
+  image={heroImg}
+  imageAlt="Violet the golden retriever next to a Thule Allax dog crate"
+  query="thule"
+  tilesTitle="Shop more Thule"
+  tilesIntro="Stock changes all the time, so these links always show what's available today."
+  tiles={tiles}
+  faqs={faqs}
+  reviewTags={['more', 'used']}
+  guides={['towbar-vs-roof-vs-boot-bike-racks', 'buying-a-used-thule-roof-box', 'what-fits-in-a-roof-box']}
+/>

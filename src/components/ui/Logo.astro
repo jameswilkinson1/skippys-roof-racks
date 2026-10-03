@@ -1,0 +1,8 @@
+---
+import logo from '../../assets/brand/logo.svg?raw';
+import mark from '../../assets/brand/logo-mark.svg?raw';
+interface Props { variant?: 'full' | 'mark'; class?: string }
+const { variant = 'full', class: cls = '' } = Astro.props;
+const svg = (variant === 'mark' ? mark : logo).replace('<svg', `<svg class="logo-svg ${cls}"`);
+---
+<Fragment set:html={svg} />

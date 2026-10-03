@@ -1,0 +1,147 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/sections/PageHero.astro';
+import TrustStrip from '../components/sections/TrustStrip.astro';
+import Steps from '../components/sections/Steps.astro';
+import Reviews from '../components/sections/Reviews.astro';
+import FAQ from '../components/sections/FAQ.astro';
+import RelatedGuides from '../components/sections/RelatedGuides.astro';
+import MapHours from '../components/sections/MapHours.astro';
+import RepairForm from '../components/forms/RepairForm.astro';
+import Icon from '../components/ui/Icon.astro';
+import { site } from '../data/site';
+import { reviews } from '../data/reviews';
+import heroImg from '../assets/images/products/thule-velospace-xt-2.jpg';
+
+const crumbs = [{ name: 'Thule repairs', href: '/thule-repairs/' }];
+const thuleSent = reviews.filter((r) => r.tags.includes('thule')).slice(0, 3);
+
+const fixes = [
+  { icon: 'Bike', title: 'Towbar bike carriers', text: 'EasyFold, VeloSpace, VeloCompact, Epos and older models: tilt pedals and mechanisms, coupling handles, sheared bolts, frames and wheel holders.' },
+  { icon: 'Zap', title: 'Lights & wiring', text: 'Lamp units, lenses, number plate holders and 13-pin plugs and wiring on Thule carriers.' },
+  { icon: 'KeyRound', title: 'Locks & keys', text: 'Broken keys stuck in locks, seized cylinders, lost keys and replacement lock sets (N001–N250).' },
+  { icon: 'Package', title: 'Roof boxes', text: 'Lock housings, hinges, lid lifters and struts, internal straps and mounting brackets.' },
+  { icon: 'Ruler', title: 'Roof bars & feet', text: 'Rubber strips, end caps, feet, pads, fitting kits and making unsafe set-ups safe again.' },
+  { icon: 'MountainSnow', title: 'Roof carriers', text: 'ProRide, FreeRide and other roof bike, ski and kayak carriers: ratchets, straps, knobs and frame holders.' },
+];
+
+const steps = [
+  { title: 'Tell us what’s wrong', text: 'Use the form below or call us. A photo and the model name (or part number) help a lot.' },
+  { title: 'We diagnose & quote', text: 'We’ll identify the fault and the parts needed. Often it’s a part you can fit yourself, and we’ll talk you through it.' },
+  { title: 'Bring it in or post it', text: 'Drop it at our Tuddenham workshop, where smaller jobs are often done while you wait, or send it to us by courier.' },
+  { title: 'Back on the road', text: 'We repair, test and either hand it back or courier it home, usually within a few working days.' },
+];
+
+const faqs = [
+  { q: 'Are you really the only official Thule Service Centre in the UK?', a: 'Yes, and that’s why Thule’s own customer service regularly refers people to us for repairs and spare parts that aren’t sold directly.' },
+  { q: 'Can I post my bike carrier to you for repair?', a: 'Yes. Customers from all over the UK send their carriers to us. Get in touch first so we can confirm the fault, then courier it to us. We repair it and send it back.' },
+  { q: 'How much does a repair cost?', a: 'It depends on the fault and parts needed. Many repairs just need a single inexpensive part. Tell us what’s wrong and we’ll give you a price before we start.' },
+  { q: 'My Thule product is discontinued. Can you still fix it?', a: 'Very often, yes. We keep a large stock of parts for older and discontinued Thule products, and source parts others can’t.' },
+  { q: 'Do you repair kit you didn’t sell?', a: 'Yes. Most of the repairs we do are on Thule kit bought elsewhere.' },
+  { q: 'Is my product under Thule warranty?', a: 'Warranty claims usually go through the dealer you bought from. Bought from us? Get in touch. Bought elsewhere? Contact that dealer first. If they can’t help, we’re happy to advise.' },
+];
+
+const serviceSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  name: 'Thule repairs and servicing',
+  serviceType: 'Thule bike carrier and roof box repair',
+  provider: { '@id': `${site.url}/#business` },
+  areaServed: { '@type': 'Country', name: 'United Kingdom' },
+  description: `${site.thule.claim}. Repairs to Thule bike carriers, roof boxes, roof bars, locks and keys, in our workshop or by post.`,
+};
+---
+<BaseLayout
+  title="Thule Repairs UK | The Only Official Thule Service Centre"
+  description="The only official Thule Service Centre in the UK. Thule bike carrier, roof box, lock and key repairs in our Ipswich workshop or by post, including discontinued models."
+  image={heroImg}
+  crumbs={crumbs}
+  schema={[serviceSchema]}
+>
+  <PageHero
+    eyebrow="Official Thule Service Centre"
+    title="Thule repairs by the only official Thule Service Centre in the UK"
+    lead="Snapped tilt pedal the day before your holiday? Key broken in the lock? Part Thule doesn't sell any more? We fix Thule kit every day, in our Ipswich workshop or by post from anywhere in the UK."
+    points={['Recommended by Thule’s own customer service', 'Workshop repairs, often while you wait', 'Repair-by-post service, UK-wide']}
+    image={heroImg}
+    imageAlt="Thule VeloSpace XT towbar bike carrier in the Skippy's workshop"
+    crumbs={crumbs}
+  >
+    <Fragment slot="actions">
+      <a href="#repair-form" class="btn btn-primary btn-lg"><Icon name="Wrench" /> Book a repair</a>
+      <a href={site.phoneHref} class="btn btn-outline btn-lg"><Icon name="Phone" /> {site.phone}</a>
+    </Fragment>
+  </PageHero>
+  <TrustStrip />
+
+  <section class="section">
+    <div class="container">
+      <div class="section-head">
+        <p class="eyebrow">What we fix</p>
+        <h2>If it's Thule, we can probably fix it</h2>
+        <p>We see the same faults again and again, and keep the parts to fix them. These are the repairs we do most.</p>
+      </div>
+      <div class="grid grid-3">
+        {fixes.map((f) => (
+          <div class="card"><span class="icon-badge"><Icon name={f.icon} /></span><h3>{f.title}</h3><p class="muted">{f.text}</p></div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section bg-ink on-dark">
+    <div class="container split">
+      <div>
+        <p class="eyebrow">Recommended by Thule</p>
+        <h2>“Thule told me to call Skippy's”</h2>
+        <p class="lead">We hear it every week. When Thule's customer service can't supply a part or repair directly, they send people to us.</p>
+        <a href="/thule-spare-parts/" class="btn btn-primary">Spare parts & keys <Icon name="ArrowRight" /></a>
+      </div>
+      <div class="quote-list">
+        {thuleSent.map((r) => (
+          <figure>
+            <blockquote>“{r.text}”</blockquote>
+            <figcaption>{r.author}, Google review</figcaption>
+          </figure>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <Steps steps={steps} title="How a repair works" eyebrow="Simple" background="white" />
+
+  <section class="section" id="repair">
+    <div class="container split split-top split-wide-left">
+      <div class="card">
+        <h2 id="repair-form">Book a repair</h2>
+        <p class="muted">Tell us what's wrong and we'll come back to you with the next steps and a price.</p>
+        <RepairForm />
+      </div>
+      <aside class="aside-stack">
+        <div class="card">
+          <h3>Sending it by post?</h3>
+          <p>Get in touch first so we can confirm the fault and parts. Pack it well, include your name, phone number and a note of the problem, and send it to:</p>
+          <address><strong>{site.legalName}</strong><br />{site.address.line1}<br />{site.address.line2}<br />{site.address.locality}, {site.address.town}<br />{site.address.postcode}</address>
+        </div>
+        <div class="card">
+          <h3>Emergency before a trip?</h3>
+          <p>Call us on <a href={site.phoneHref}><strong>{site.phone}</strong></a>. We'll always try to get you sorted before you go.</p>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <Reviews tags={['repair', 'parts']} title="Repairs that saved the holiday" background="paper-2" />
+  <FAQ faqs={faqs} title="Thule repair FAQs" />
+  <RelatedGuides slugs={['thule-bike-rack-repair-common-faults', 'lost-thule-roof-box-key', 'towbar-vs-roof-vs-boot-bike-racks']} />
+  <MapHours title="Drop your repair at our workshop" />
+</BaseLayout>
+<style>
+  .quote-list { display: grid; gap: 16px; }
+  .quote-list figure { margin: 0; padding: 20px 22px; border-radius: var(--radius); background: rgb(255 255 255 / 0.06); border: 1px solid rgb(255 255 255 / 0.12); }
+  .quote-list blockquote { margin: 0 0 10px; color: rgb(255 255 255 / 0.9); }
+  .quote-list figcaption { color: var(--accent); font-weight: 700; font-size: 0.9rem; }
+  .aside-stack { display: grid; gap: 16px; }
+  .aside-stack address { font-style: normal; padding: 14px 16px; background: var(--paper); border-radius: var(--radius-sm); line-height: 1.55; }
+  #repair-form { scroll-margin-top: calc(var(--header-h) + 24px); }
+</style>

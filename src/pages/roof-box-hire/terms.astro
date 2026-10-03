@@ -1,0 +1,37 @@
+---
+/* PLACEHOLDER hire terms. Replace with Skippy's own terms before launch. */
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/sections/Breadcrumbs.astro';
+import { site, hire } from '../../data/site';
+const crumbs = [{ name: 'Roof box hire', href: '/roof-box-hire/' }, { name: 'Hire terms', href: '/roof-box-hire/terms/' }];
+---
+<BaseLayout title="Roof Box Hire Terms" description="The terms for hiring a roof box or roof bars from Skippy's Roof Racks, Tuddenham, Ipswich." crumbs={crumbs}>
+  <section class="section">
+    <div class="container container-narrow">
+      <Breadcrumbs crumbs={crumbs} />
+      <h1>Roof box &amp; roof bar hire terms</h1>
+      <p class="lead">A plain-English summary of how hiring from us works. If anything's unclear, call us on {site.phone}.</p>
+      <div class="prose">
+        <h2>Booking</h2>
+        <p>Your hire is confirmed once we've agreed dates, kit and price with you by phone or email. Minimum hire period: {hire.minimumHire}.</p>
+        <h2>Deposit and identification</h2>
+        <p>We take a {hire.deposit} when you collect, returned when the kit comes back undamaged and complete (box, bars, fitting kit and keys). Please bring photo ID.</p>
+        <h2>Collection, fitting and return</h2>
+        <p>Hire kit is collected from and returned to our Tuddenham workshop during opening hours. We fit it to your car and remove it when you bring it back. Please return the box empty and reasonably clean.</p>
+        <h2>Using the kit</h2>
+        <ul>
+          <li>Stay within the roof load limit in your vehicle handbook and the maximum load shown on the box.</li>
+          <li>Follow the speed guidance in the product manual, and drive with extra care in crosswinds.</li>
+          <li>Remember the extra height in car parks, drive-throughs and garages.</li>
+          <li>Keep the box locked while driving, and keep the keys safe. Lost keys are charged at cost.</li>
+        </ul>
+        <h2>Damage and loss</h2>
+        <p>Normal wear and tear is fine. If the kit is damaged, lost or stolen while on hire, the cost of repair or replacement may be taken from your deposit or charged to you. We recommend telling your insurer that you're carrying a roof box.</p>
+        <h2>Late returns and extensions</h2>
+        <p>Call us before your return date if you'd like to extend. Late returns without notice may be charged at the extra-week rate.</p>
+        <h2>Cancellations</h2>
+        <p>Please give us as much notice as possible so we can offer the kit to someone else.</p>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

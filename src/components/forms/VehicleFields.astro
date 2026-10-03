@@ -1,0 +1,33 @@
+---
+interface Props { prefix: string; requireMake?: boolean }
+const { prefix, requireMake = true } = Astro.props;
+const years = Array.from({ length: 2027 - 1995 }, (_, i) => 2026 - i);
+---
+<div class="form-row form-row-3">
+  <div class="field">
+    <label for={`${prefix}-make`}>Car make {requireMake && <span class="req">*</span>}</label>
+    <input class="input" id={`${prefix}-make`} name="vehicle_make" placeholder="e.g. Volkswagen" required={requireMake} />
+  </div>
+  <div class="field">
+    <label for={`${prefix}-model`}>Model {requireMake && <span class="req">*</span>}</label>
+    <input class="input" id={`${prefix}-model`} name="vehicle_model" placeholder="e.g. Golf Estate" required={requireMake} />
+  </div>
+  <div class="field">
+    <label for={`${prefix}-year`}>Year</label>
+    <select class="select" id={`${prefix}-year`} name="vehicle_year">
+      <option value="">Select year</option>
+      {years.map((y) => <option>{y}</option>)}
+      <option>Older</option>
+    </select>
+  </div>
+</div>
+<fieldset class="field">
+  <legend>Roof type</legend>
+  <div class="choice-grid">
+    <label class="choice"><input type="radio" name="roof_type" value="Normal roof (no rails)" /><span>Normal roof<small>Smooth roof, no rails</small></span></label>
+    <label class="choice"><input type="radio" name="roof_type" value="Raised rails" /><span>Raised rails<small>Rails with a gap underneath</small></span></label>
+    <label class="choice"><input type="radio" name="roof_type" value="Flush rails" /><span>Flush rails<small>Rails fixed flat to the roof</small></span></label>
+    <label class="choice"><input type="radio" name="roof_type" value="Fixpoints" /><span>Fixpoints<small>Hidden mounting points</small></span></label>
+    <label class="choice"><input type="radio" name="roof_type" value="Not sure" checked /><span>Not sure<small>We'll work it out</small></span></label>
+  </div>
+</fieldset>

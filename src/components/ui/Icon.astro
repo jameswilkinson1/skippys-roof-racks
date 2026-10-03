@@ -1,0 +1,22 @@
+---
+import * as icons from 'lucide-static';
+
+interface Props {
+  name: string;
+  size?: number;
+  class?: string;
+  label?: string;
+  stroke?: number;
+}
+const { name, size = 24, class: cls, label, stroke } = Astro.props;
+let svg = (icons as unknown as Record<string, string>)[name] ?? '';
+if (!svg) console.warn(`[Icon] Unknown icon: ${name}`);
+const a11y = label ? `role="img" aria-label="${label}"` : 'aria-hidden="true"';
+svg = svg
+  .replace('<svg', `<svg ${a11y} focusable="false"`)
+  .replace(/width="24"/, `width="${size}"`)
+  .replace(/height="24"/, `height="${size}"`);
+if (stroke) svg = svg.replace(/stroke-width="2"/, `stroke-width="${stroke}"`);
+if (cls) svg = svg.replace('class="lucide', `class="${cls} lucide`);
+---
+<Fragment set:html={svg} />

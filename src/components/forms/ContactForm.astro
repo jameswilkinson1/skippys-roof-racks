@@ -1,0 +1,18 @@
+---
+import FormShell from './FormShell.astro';
+import ContactFields from './ContactFields.astro';
+---
+<FormShell id="contact-form" subject="Website enquiry">
+  <ContactFields prefix="con" />
+  <div class="field">
+    <label for="con-topic">What's it about?</label>
+    <select class="select" id="con-topic" name="topic">
+      <option>Roof box / bar hire</option><option>Buying new or used Thule</option><option>Fitting</option>
+      <option>Repair</option><option>Spare parts or keys</option><option>An eBay order</option><option>Something else</option>
+    </select>
+  </div>
+  <div class="field">
+    <label for="con-msg">Message <span class="req">*</span></label>
+    <textarea class="textarea" id="con-msg" name="message" required placeholder="Include your car make, model and year if it's about fitting or buying."></textarea>
+  </div>
+</FormShell>

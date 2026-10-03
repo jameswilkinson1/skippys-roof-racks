@@ -1,0 +1,61 @@
+---
+import CategoryLayout from '../layouts/CategoryLayout.astro';
+import Icon from '../components/ui/Icon.astro';
+import heroImg from '../assets/images/products/thule-994-outway.jpg';
+import velospace from '../assets/images/products/thule-velospace-3.jpg';
+import velospaceXt from '../assets/images/products/thule-velospace-xt-2.jpg';
+import freeride from '../assets/images/products/thule-532-free-ride.jpg';
+import outway from '../assets/images/products/thule-outway-platform.jpg';
+import onto from '../assets/images/products/thule-onto-2.jpg';
+import yepp from '../assets/images/products/thule-yepp-nexxt-2-maxi.jpg';
+
+const tiles = [
+  { title: 'Towbar bike carriers', text: 'EasyFold, VeloSpace, Epos, VeloCompact and more.', image: velospace, alt: 'Thule VeloSpace towbar bike carrier', query: 'thule towbar bike' },
+  { title: 'VeloSpace XT', text: 'Thule’s expandable towbar carrier, 2 to 4 bikes.', image: velospaceXt, alt: 'Thule VeloSpace XT 2 bike carrier', query: 'thule velospace' },
+  { title: 'Roof bike carriers', text: 'ProRide, FreeRide, UpRide and FastRide.', image: freeride, alt: 'Thule FreeRide roof bike carriers', query: 'thule roof bike' },
+  { title: 'Boot & rear-door carriers', text: 'OutWay, Clip-On and WanderWay.', image: outway, alt: 'Thule OutWay platform carrier on a white VW Golf', query: 'thule outway' },
+  { title: 'Carrier accessories', text: 'Loading ramps, bags, adapters and extensions.', image: onto, alt: 'Thule Onto cargo bag for a bike carrier', query: 'thule bike carrier', conditions: ['any' as const] },
+  { title: 'Child bike seats', text: 'Thule Yepp front and rear seats.', image: yepp, alt: 'Thule Yepp Nexxt 2 Maxi child bike seat', query: 'thule yepp', conditions: ['any' as const] },
+];
+
+const faqs = [
+  { q: 'Which type of bike carrier is best?', a: 'If you have a towbar, a towbar carrier is the easiest to load and the best for e-bikes. Roof carriers keep the boot free but need lifting, and boot carriers are a budget-friendly option for occasional use. Read <a href="/guides/towbar-vs-roof-vs-boot-bike-racks/">towbar vs roof vs boot bike racks</a>.' },
+  { q: 'Can I carry e-bikes?', a: 'Yes, on the right carrier. Check the carrier’s per-bike and total weight limit, and your towbar’s nose weight. Thule’s EasyFold and Epos ranges are popular for e-bikes. Ask us and we’ll match a carrier to your bikes.' },
+  { q: 'Do you repair Thule bike carriers?', a: 'Yes, all the time. We’re the only official Thule Service Centre in the UK. Tilt pedals, locks, lights, straps and more. See <a href="/thule-repairs/">Thule repairs</a>.' },
+  { q: 'Do you fit bike carriers?', a: 'Fitting is free with purchase. We’ll also show you how to fold, tilt and lock it, and how to load your bikes properly.' },
+];
+---
+<CategoryLayout
+  seoTitle="Thule Bike Carriers: New & Used | Towbar, Roof & Boot"
+  seoDescription="New and used Thule bike carriers: EasyFold, VeloSpace, Epos, ProRide, OutWay and more. Free fitting and a demo when you collect, plus expert Thule bike carrier repairs."
+  crumbs={[{ name: 'Shop', href: '/used-thule/' }, { name: 'Thule bike carriers', href: '/thule-bike-carriers/' }]}
+  eyebrow="Towbar, roof & boot bike carriers"
+  title="Thule bike carriers, new &amp; used"
+  lead="Towbar, roof and boot-mounted Thule bike racks for road bikes, mountain bikes, kids' bikes and e-bikes, with honest advice on which one suits your car and your bikes."
+  points={['EasyFold, VeloSpace, Epos, ProRide, OutWay & more', 'Free fitting plus a loading lesson', 'Spares and repairs for older carriers']}
+  image={heroImg}
+  imageAlt="Thule OutWay boot-mounted bike carrier with two bikes"
+  query="thule bike"
+  tilesTitle="Shop bike carriers by type"
+  tilesIntro="Live listings from our eBay shop. New and used carriers come in all the time."
+  tiles={tiles}
+  faqs={faqs}
+  reviewTags={['bike']}
+  reviewTitle="Cyclists sorted"
+  guides={['towbar-vs-roof-vs-boot-bike-racks', 'thule-bike-rack-repair-common-faults', 'which-thule-roof-bars']}
+  cta={{ title: 'Broken bike carrier?', text: 'We repair Thule towbar and roof carriers every week: in our workshop, while you wait where possible, or by post.', label: 'Thule repairs', href: '/thule-repairs/', icon: 'Wrench' }}
+>
+  <section class="section bg-white">
+    <div class="container">
+      <div class="section-head">
+        <p class="eyebrow">Choosing a carrier</p>
+        <h2>Towbar, roof or boot?</h2>
+      </div>
+      <div class="grid grid-3">
+        <div class="card"><span class="icon-badge"><Icon name="Bike" /></span><h3>Towbar</h3><p class="muted">The easiest to load, kindest to your paintwork and best for e-bikes. Many tilt so you can still open the boot. Needs a towbar.</p></div>
+        <div class="card"><span class="icon-badge"><Icon name="MountainSnow" /></span><h3>Roof</h3><p class="muted">Keeps the boot and rear view clear, and works alongside a roof box. Bikes need lifting up, and mind the height.</p></div>
+        <div class="card"><span class="icon-badge"><Icon name="Car" /></span><h3>Boot / rear door</h3><p class="muted">No towbar or roof bars needed. Great value for occasional trips with 2–3 lighter bikes.</p></div>
+      </div>
+    </div>
+  </section>
+</CategoryLayout>

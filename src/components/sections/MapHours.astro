@@ -1,0 +1,45 @@
+---
+import { site } from '../../data/site';
+import Icon from '../ui/Icon.astro';
+interface Props { title?: string; background?: string }
+const { title = 'Visit our Tuddenham workshop', background = 'white' } = Astro.props;
+const directions = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent("Skippy's Roof Racks LTD, Tuddenham, Ipswich IP6 9DD")}&destination_place_id=${site.google.placeId}`;
+---
+<section class:list={['section', `bg-${background}`]} id="visit">
+  <div class="container split split-wide-right">
+    <div>
+      <p class="eyebrow">Find us</p>
+      <h2>{title}</h2>
+      <p class="lead">Just north-east of Ipswich, a short drive from the A12 and A14. Customers drive from all over the UK for fitting, collections and repairs. Give us a call before you set off so we can have everything ready.</p>
+      <div class="visit-grid">
+        <div class="visit-block">
+          <h3><Icon name="MapPin" size={20} /> Address</h3>
+          <address>{site.address.line1}<br />{site.address.line2}<br />{site.address.locality}, {site.address.town}<br />{site.address.postcode}</address>
+        </div>
+        <div class="visit-block">
+          <h3><Icon name="Clock" size={20} /> Opening hours</h3>
+          <dl class="hours">
+            {site.hours.map((h) => (<><dt>{h.days}</dt><dd>{h.open ? `${h.open} – ${h.close}` : 'Closed'}</dd></>))}
+          </dl>
+        </div>
+      </div>
+      <div class="btn-row">
+        <a href={directions} target="_blank" rel="noopener" class="btn btn-dark"><Icon name="Navigation" /> Get directions</a>
+        <a href={site.phoneHref} class="btn btn-outline"><Icon name="Phone" /> {site.phone}</a>
+      </div>
+    </div>
+    <div class="map-frame">
+      <iframe title="Map showing Skippy's Roof Racks in Tuddenham, Ipswich" src={site.google.embedUrl} loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
+    </div>
+  </div>
+</section>
+<style>
+  .visit-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 24px; margin: 28px 0; }
+  .visit-block h3 { display: flex; align-items: center; gap: 8px; font-size: 1.05rem; margin-bottom: 10px; }
+  address { font-style: normal; line-height: 1.6; }
+  .hours { display: grid; grid-template-columns: auto auto; gap: 4px 18px; margin: 0; justify-content: start; }
+  .hours dt { font-weight: 650; }
+  .hours dd { margin: 0; }
+  .map-frame { border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow-lg); min-height: 380px; background: var(--paper-2); }
+  .map-frame iframe { width: 100%; height: 100%; min-height: 380px; border: 0; display: block; }
+</style>

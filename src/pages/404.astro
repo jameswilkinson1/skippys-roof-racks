@@ -1,0 +1,19 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Icon from '../components/ui/Icon.astro';
+---
+<BaseLayout title="Page not found" description="Sorry, that page couldn't be found." noindex>
+  <section class="section">
+    <div class="container container-narrow center">
+      <span class="icon-badge"><Icon name="Search" /></span>
+      <h1>We can't find that page</h1>
+      <p class="lead">It may have moved when we rebuilt our website. Try one of these instead:</p>
+      <div class="btn-row" style="justify-content:center">
+        <a href="/roof-box-hire/" class="btn btn-primary">Roof box hire</a>
+        <a href="/used-thule/" class="btn btn-dark">Shop new & used</a>
+        <a href="/thule-repairs/" class="btn btn-outline">Thule repairs</a>
+        <a href="/contact/" class="btn btn-outline">Contact us</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

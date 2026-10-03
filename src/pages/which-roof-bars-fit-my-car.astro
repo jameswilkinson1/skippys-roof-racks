@@ -1,0 +1,97 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumbs from '../components/sections/Breadcrumbs.astro';
+import TrustStrip from '../components/sections/TrustStrip.astro';
+import Reviews from '../components/sections/Reviews.astro';
+import FAQ from '../components/sections/FAQ.astro';
+import RelatedGuides from '../components/sections/RelatedGuides.astro';
+import FitForm from '../components/forms/FitForm.astro';
+import Icon from '../components/ui/Icon.astro';
+import { site } from '../data/site';
+import ogImg from '../assets/images/site/vw-id-buzz-roof-bars-2.jpg';
+
+const crumbs = [{ name: 'Which roof bars fit my car?', href: '/which-roof-bars-fit-my-car/' }];
+const roofTypes = [
+  { title: 'Normal roof', text: 'A smooth roof with no rails. Uses clamp feet that grip the door frame, plus a car-specific fitting kit.' },
+  { title: 'Raised rails', text: 'Rails running front to back with a gap underneath. The simplest fit: raised rail feet wrap around them.' },
+  { title: 'Flush rails', text: 'Rails fixed flat to the roof with no gap. Needs flush rail feet and a fitting kit.' },
+  { title: 'Fixpoints', text: 'Hidden mounting points, often under small flaps or covers in the roof. Needs fixpoint feet and a kit.' },
+];
+const faqs = [
+  { q: 'Is there a fee for finding the right fit?', a: 'No. Tell us your car and we’ll recommend the right Thule set-up for free, with new and used options where we have them.' },
+  { q: 'What if my car is old or rare?', a: 'Send it anyway. We stock fitting kits for many cars that Thule no longer lists, and customers often come to us after being told nothing is available.' },
+  { q: 'Can I check myself?', a: `Yes. Thule’s own fit guide is a good starting point: <a href="${site.thule.fitGuideUrl}" target="_blank" rel="noopener">open Thule’s fit guide</a>. Then come back to us for new or used parts and free fitting.` },
+  { q: 'I already have Thule bars from my old car. Can I reuse them?', a: 'Often, yes, with a new fitting kit and sometimes different feet. Tell us what you have in the message box and we’ll tell you what’s needed.' },
+];
+---
+<BaseLayout
+  title="Which Roof Bars Fit My Car? Free Thule Fit Check"
+  description="Tell us your make, model, year and roof type and the Thule specialists will reply with the exact roof bars, foot pack and fitting kit you need, with new and used options."
+  image={ogImg}
+  crumbs={crumbs}
+>
+  <section class="fit-hero">
+    <div class="container">
+      <Breadcrumbs crumbs={crumbs} />
+      <div class="fit-grid">
+        <div class="fit-intro">
+          <p class="eyebrow">Free fit check</p>
+          <h1>Which roof bars fit my car?</h1>
+          <p class="lead">Tell us your car and what you want to carry. We'll reply with the exact Thule bars, foot pack and fitting kit, including new and used options, and fit them free when you buy.</p>
+          <ul class="checklist">
+            <li>Free, no-obligation recommendation</li>
+            <li>Current, older and hard-to-fit cars</li>
+            <li>Quick replies, often the same day</li>
+          </ul>
+          <div class="card thule-guide">
+            <h2 class="h3">Prefer to check yourself?</h2>
+            <p>Use Thule's official fit guide to look up your car, then come back to us for parts and free fitting.</p>
+            <a href={site.thule.fitGuideUrl} target="_blank" rel="noopener" class="btn btn-outline btn-block">Open Thule's fit guide <Icon name="ArrowUpRight" /></a>
+          </div>
+          <blockquote class="fit-quote">“Just send your vehicle info and they suggest the correct part! Easy.”<cite>Matt Greenhalgh, Google review</cite></blockquote>
+        </div>
+        <div class="card form-card">
+          <h2>Tell us about your car</h2>
+          <FitForm />
+        </div>
+      </div>
+    </div>
+  </section>
+  <TrustStrip />
+
+  <section class="section">
+    <div class="container">
+      <div class="section-head">
+        <p class="eyebrow">Not sure of your roof type?</p>
+        <h2>The four main roof types</h2>
+        <p>Your roof type decides which Thule foot pack you need. If you're not sure, choose "Not sure" in the form and we'll work it out.</p>
+      </div>
+      <div class="grid grid-4">
+        {roofTypes.map((r, i) => (
+          <div class="card roof-type">
+            <span class="roof-num">{i + 1}</span>
+            <h3>{r.title}</h3>
+            <p class="muted">{r.text}</p>
+          </div>
+        ))}
+      </div>
+      <p style="margin-top:20px"><a href="/guides/roof-box-without-roof-rails/" class="link-arrow">Read more: fitting a roof box without roof rails <Icon name="ArrowRight" /></a></p>
+    </div>
+  </section>
+
+  <Reviews tags={['fit', 'bars']} title="Getting the right fit, first time" background="paper-2" />
+  <FAQ faqs={faqs} title="Fit check FAQs" />
+  <RelatedGuides slugs={['which-thule-roof-bars', 'thule-fitting-kits-explained', 'roof-box-without-roof-rails']} />
+</BaseLayout>
+<style>
+  .fit-hero { padding-block: clamp(24px, 4vw, 48px) clamp(48px, 6vw, 80px); background: linear-gradient(180deg, var(--white), var(--paper)); }
+  .fit-grid { display: grid; gap: clamp(28px, 4vw, 56px); align-items: start; }
+  @media (min-width: 1000px) { .fit-grid { grid-template-columns: 0.8fr 1.2fr; } .fit-intro { position: sticky; top: calc(var(--header-h) + 24px); } }
+  .fit-intro h1 { font-size: clamp(2.1rem, 4.6vw, 3.4rem); }
+  .thule-guide { margin: 8px 0 20px; }
+  .thule-guide .h3 { font-size: 1.2rem; }
+  .form-card h2 { font-size: clamp(1.5rem, 2.6vw, 2rem); }
+  .fit-quote { margin: 0; padding: 16px 20px; border-left: 4px solid var(--accent); background: var(--white); border-radius: 0 var(--radius-sm) var(--radius-sm) 0; font-weight: 650; }
+  .fit-quote cite { display: block; margin-top: 6px; font-style: normal; font-weight: 600; color: var(--muted); font-size: 0.86rem; }
+  .roof-num { display: grid; place-items: center; width: 40px; height: 40px; border-radius: 50%; background: var(--accent); font-weight: 900; margin-bottom: 14px; }
+</style>

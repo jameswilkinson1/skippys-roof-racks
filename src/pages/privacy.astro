@@ -1,0 +1,27 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { site, fullAddress } from '../data/site';
+---
+<BaseLayout title="Privacy Notice" description="How Skippy's Roof Racks Ltd uses the personal information you share with us.">
+  <section class="section">
+    <div class="container container-narrow">
+      <h1>Privacy notice</h1>
+      <div class="prose">
+        <p>This notice explains how {site.legalName} ("we", "us"), company number {site.companyNumber}, of {fullAddress}, uses personal information collected through this website. We're the data controller for this information.</p>
+        <h2>What we collect</h2>
+        <p>When you send an enquiry, we collect the details you give us: usually your name, email address, phone number, vehicle details and your message.</p>
+        <h2>How we use it</h2>
+        <p>We use your details only to reply to your enquiry, provide quotes, arrange hire, fitting or repairs, and keep records of the work we do for you. Our lawful basis is taking steps at your request before entering into a contract, and our legitimate interest in running our business.</p>
+        <h2>Who we share it with</h2>
+        <p>Website enquiries are delivered to our email inbox by our form provider (Web3Forms). We don't sell your information or use it for marketing without your consent. Purchases made on eBay are also covered by eBay's privacy notice.</p>
+        <h2>How long we keep it</h2>
+        <p>We keep enquiries for as long as needed to deal with them, and records of sales, hire and repairs for up to six years for accounting and legal purposes.</p>
+        <h2>Cookies</h2>
+        <p>This website doesn't use advertising cookies. The embedded Google map may set cookies when it loads. If we add analytics, we'll update this notice and ask for consent where required.</p>
+        <h2>Your rights</h2>
+        <p>You can ask to see, correct or delete the information we hold about you, or object to how we use it. Email <a href={`mailto:${site.email}`}>{site.email}</a> or call {site.phone}. You can also complain to the Information Commissioner's Office at <a href="https://ico.org.uk" rel="noopener">ico.org.uk</a>.</p>
+        <p><em>Last updated: October 2026</em></p>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

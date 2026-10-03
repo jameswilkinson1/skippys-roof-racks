@@ -1,0 +1,17 @@
+---
+/** Name / email / phone fields shared by every form. */
+---
+<div class="form-row form-row-3">
+  <div class="field">
+    <label for={`${Astro.props.prefix}-name`}>Your name <span class="req">*</span></label>
+    <input class="input" id={`${Astro.props.prefix}-name`} name="name" autocomplete="name" required />
+  </div>
+  <div class="field">
+    <label for={`${Astro.props.prefix}-email`}>Email <span class="req">*</span></label>
+    <input class="input" id={`${Astro.props.prefix}-email`} name="email" type="email" autocomplete="email" required />
+  </div>
+  <div class="field">
+    <label for={`${Astro.props.prefix}-phone`}>Phone</label>
+    <input class="input" id={`${Astro.props.prefix}-phone`} name="phone" type="tel" autocomplete="tel" />
+  </div>
+</div>

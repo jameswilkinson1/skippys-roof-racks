@@ -1,0 +1,122 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/sections/PageHero.astro';
+import TrustStrip from '../components/sections/TrustStrip.astro';
+import EbayGrid from '../components/sections/EbayGrid.astro';
+import Steps from '../components/sections/Steps.astro';
+import Reviews from '../components/sections/Reviews.astro';
+import FAQ from '../components/sections/FAQ.astro';
+import CTABand from '../components/sections/CTABand.astro';
+import RelatedGuides from '../components/sections/RelatedGuides.astro';
+import Icon from '../components/ui/Icon.astro';
+import { site } from '../data/site';
+import { ebayUrl } from '../lib/ebay';
+
+import heroImg from '../assets/images/site/showroom-force-xt.jpg';
+import boxesImg from '../assets/images/products/thule-force-3-small.jpg';
+import barsImg from '../assets/images/products/thule-wingbar-edge.jpg';
+import kitImg from '../assets/images/products/thule-fitting-kit-6080.jpg';
+import bikeImg from '../assets/images/products/thule-velospace-xt-2.jpg';
+import dogImg from '../assets/images/products/thule-allax-l.jpg';
+import childImg from '../assets/images/products/thule-spring-city-pushchair.jpg';
+import waterImg from '../assets/images/products/thule-dockgrip-kayak-rack.jpg';
+import keyImg from '../assets/images/products/thule-lock-set-n201-n250.jpg';
+
+const crumbs = [{ name: 'Used & ex-display Thule', href: '/used-thule/' }];
+const tiles = [
+  { title: 'Used roof boxes', text: 'Motion, Force, Pulse, Touring, Dynamic and more.', image: boxesImg, alt: 'Grey Thule Force 3 roof box with mounting hardware', query: 'roof box', conditions: ['used', 'new'] as const },
+  { title: 'Used roof bars', text: 'WingBar Evo & Edge, ProBar, SquareBar and foot packs.', image: barsImg, alt: 'Thule WingBar Edge roof bars with foot packs', query: 'thule bar', conditions: ['used', 'new'] as const },
+  { title: 'Fitting kits', text: 'Hundreds of kits, including for discontinued cars.', image: kitImg, alt: 'Boxed Thule fitting kit', query: 'thule fitting kit', conditions: ['used', 'new'] as const },
+  { title: 'Bike carriers', text: 'Towbar, roof and boot carriers at big savings.', image: bikeImg, alt: 'Thule VeloSpace XT towbar bike carrier', query: 'thule bike', conditions: ['used', 'new'] as const },
+  { title: 'Dog crates', text: 'Thule Allax crates in several sizes.', image: dogImg, alt: 'Thule Allax dog crate', query: 'thule allax', conditions: ['used', 'new'] as const },
+  { title: 'Strollers & child seats', text: 'Thule Spring, Urban Glide, Chariot and Yepp.', image: childImg, alt: 'Thule Spring city pushchair', query: 'thule', conditions: ['any'] as const },
+  { title: 'Kayak, SUP & ski carriers', text: 'Kayak, SUP and ski carriers when in stock.', image: waterImg, alt: 'Thule DockGrip kayak carrier', query: 'thule kayak', conditions: ['any'] as const },
+  { title: 'Keys, locks & spares', text: 'Keys N001–N250, lock cylinders and parts.', image: keyImg, alt: 'Thule lock cylinders and keys', query: 'thule key', conditions: ['any'] as const },
+].map((t) => ({ ...t, conditions: [...t.conditions] }));
+
+const steps = [
+  { title: 'Find it on eBay', text: 'Browse our live listings. Items are photographed in our showroom and described honestly, including any marks.' },
+  { title: 'Buy, or ask us first', text: 'Not sure it’ll fit? Message us on eBay or <a href="/which-roof-bars-fit-my-car/">tell us your car</a> before you buy.' },
+  { title: 'Delivered or collected', text: 'We pack carefully and ship quickly across the UK. Big items like roof boxes can be collected from Tuddenham.' },
+  { title: 'Fitted free', text: 'Collecting? We’ll fit it to your car for free and show you exactly how it works.' },
+];
+
+const faqs = [
+  { q: 'Why do you sell through eBay?', a: `eBay lets us list hundreds of items with live stock and secure payment, and gives you buyer protection. We have ${site.ebay.positive} positive feedback from ${site.ebay.feedbackCount} ratings.` },
+  { q: 'What does "used" mean at Skippy’s?', a: 'Used kit has had a previous owner or been on display. Each listing describes its condition honestly, including any marks, and the photos show the actual item. Plenty of customers tell us it looks brand new.' },
+  { q: 'Can I collect instead of paying for postage?', a: 'Yes. Choose collection on eBay (or message us) and pick it up from our Tuddenham workshop, where we’ll fit it free.' },
+  { q: 'What if it doesn’t fit my car?', a: 'Ask us before you buy and we’ll check. If there’s a problem after purchase, get in touch. We’re known for sorting things out quickly.' },
+  { q: 'I can’t find what I need. Do you have more stock?', a: 'Very likely. Not everything we have is listed. <a href="/contact/">Send us a message</a> or call ' + site.phone + ' with the part or product you’re after.' },
+];
+---
+<BaseLayout
+  title="Used Thule Roof Boxes, Roof Bars & Bike Carriers | Ex-Display"
+  description="Save on used and ex-display Thule roof boxes, roof bars, fitting kits and bike carriers from the Thule specialists. Live stock on eBay, UK delivery or free fitting at Tuddenham."
+  image={heroImg}
+  crumbs={crumbs}
+>
+  <PageHero
+    eyebrow="New & used Thule · 100% eBay feedback"
+    title="Used &amp; ex-display Thule, for a fraction of new"
+    lead="Thule kit is built to last, so a used box, bar set or bike carrier from us can save you a small fortune. Every item is sold by Thule specialists through our eBay shop."
+    points={['Hundreds of items in stock on eBay', 'Honestly described, with photos of the actual item', 'Collect from Tuddenham and we’ll fit it free']}
+    image={heroImg}
+    imageAlt="Matt black Thule Force XT roof box in the Skippy's showroom"
+    crumbs={crumbs}
+  >
+    <Fragment slot="actions">
+      <a href={ebayUrl('', 'used')} target="_blank" rel="noopener" class="btn btn-primary btn-lg"><Icon name="ShoppingBag" /> Shop used on eBay</a>
+      <a href={ebayUrl('', 'new')} target="_blank" rel="noopener" class="btn btn-outline btn-lg">Shop new</a>
+    </Fragment>
+  </PageHero>
+  <TrustStrip />
+
+  <section class="section">
+    <div class="container">
+      <div class="section-head">
+        <p class="eyebrow">Shop by category</p>
+        <h2>What are you looking for?</h2>
+        <p>Each button opens our live eBay listings for that category, so you'll always see what's in stock today.</p>
+      </div>
+      <EbayGrid tiles={tiles} columns={4} />
+    </div>
+  </section>
+
+  <Steps steps={steps} title="How buying from us works" eyebrow="Easy" background="white" />
+
+  <section class="section">
+    <div class="container split">
+      <div>
+        <p class="eyebrow">Why used Thule?</p>
+        <h2>Same kit, a lot less money</h2>
+        <p class="lead">Thule roof boxes, bars and carriers are made to survive years of motorways, weather and loading, so a well-kept used item works just like a new one.</p>
+        <ul class="checklist">
+          <li>Typically much cheaper than the same item new</li>
+          <li>Hard-to-find and discontinued models and fitting kits</li>
+          <li>Matching keys and locks can often be supplied</li>
+          <li>Expert advice before you buy, and free fitting when you collect</li>
+        </ul>
+        <a href="/guides/buying-a-used-thule-roof-box/" class="link-arrow">Read: buying a used Thule roof box <Icon name="ArrowRight" /></a>
+      </div>
+      <div class="card big-quote">
+        <Icon name="Quote" size={40} />
+        <blockquote>I got a second hand like new set of roof bars and a roof box for almost half the price of buying new. When they arrived they really were immaculate.</blockquote>
+        <p class="muted">Peter Mellody, Google review</p>
+        <hr class="divider" style="margin:20px 0" />
+        <blockquote class="small-q">"As new" really means as new but at a fraction of retail price.</blockquote>
+        <p class="muted">Brian Fell, Google review</p>
+      </div>
+    </div>
+  </section>
+
+  <Reviews tags={['used', 'ebay', 'delivery']} title="Happy buyers" background="paper-2" />
+  <FAQ faqs={faqs} title="Buying used Thule: FAQs" />
+  <CTABand title="Can't find it? Ask us." text="Not everything we have is listed on eBay. Tell us what you're after, from a fitting kit for an older car to a specific box, and we'll check the stockroom." primaryLabel="Send us a message" primaryHref="/contact/" icon="Search" />
+  <RelatedGuides slugs={['buying-a-used-thule-roof-box', 'thule-motion-vs-force-vs-pulse', 'hire-or-buy-a-roof-box']} />
+</BaseLayout>
+<style>
+  .big-quote { padding: clamp(24px, 4vw, 40px); }
+  .big-quote :global(svg) { color: var(--accent); margin-bottom: 12px; }
+  .big-quote blockquote { margin: 0 0 10px; font-size: clamp(1.15rem, 2vw, 1.4rem); font-weight: 650; line-height: 1.45; }
+  .big-quote .small-q { font-size: 1.1rem; }
+</style>
