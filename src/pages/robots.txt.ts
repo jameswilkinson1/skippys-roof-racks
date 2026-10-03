@@ -1,6 +1,6 @@
 import type { APIRoute } from 'astro';
 
-const noindex = import.meta.env.PUBLIC_NOINDEX === 'true';
+const noindex = import.meta.env.PUBLIC_SITE_LIVE !== 'true';
 
 export const GET: APIRoute = () =>
   new Response(

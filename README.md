@@ -49,3 +49,6 @@ Built for Vercel (`vercel.json` adds proper 301s from the old WordPress URLs), b
 - [ ] Get permission for customer photos in `src/assets/images/customers/` (taken from Google reviews), or swap for your own
 - [ ] Optional: add `GOOGLE_PLACES_API_KEY` for live reviews; set `site.whatsapp` to show WhatsApp buttons
 - [ ] After launch: submit `/sitemap-index.xml` in Google Search Console, update the Google Business Profile website link, and claim the Thule dealer-locator listing (Locally.com) so it stops showing "Closed"
+
+## Search engine indexing
+The site is **noindex by default** (every page has `noindex, nofollow`), so preview/showcase deployments never appear in Google. At launch, set the environment variable `PUBLIC_SITE_LIVE=true` in Vercel (Production) and redeploy. That switches indexing on and adds the sitemap to `robots.txt`.

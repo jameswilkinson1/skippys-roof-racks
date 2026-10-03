@@ -22,8 +22,8 @@ interface Props {
 }
 
 const { title, description, image, noindex: pageNoindex = false, type = 'website', crumbs = [], schema = [] } = Astro.props;
-// PUBLIC_NOINDEX=true hides the whole site from search engines (preview/showcase builds)
-const noindex = pageNoindex || import.meta.env.PUBLIC_NOINDEX === 'true';
+// The whole site is noindex until PUBLIC_SITE_LIVE=true is set for the launch build
+const noindex = pageNoindex || import.meta.env.PUBLIC_SITE_LIVE !== 'true';
 const canonical = new URL(Astro.url.pathname, site.url).href;
 const fullTitle = title.includes("Skippy") ? title : `${title} | ${site.name}`;
 const og = await getImage({ src: image ?? defaultOg, width: 1200, height: 630, format: 'jpg', fit: 'cover' });
